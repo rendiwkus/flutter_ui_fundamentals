@@ -14,234 +14,182 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 3 - LayoutBuilder',
+      title: 'Tahap 4 - Expanded, Flexible, Wrap',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const ResponsiveBreakpointPage(),
+      home: const ResponsiveLayoutPage(),
     );
   }
 }
 
-class ResponsiveBreakpointPage extends StatelessWidget {
-  const ResponsiveBreakpointPage({super.key});
+class ResponsiveLayoutPage extends StatelessWidget {
+  const ResponsiveLayoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tahap 3 - LayoutBuilder'),
+        title: const Text('Tahap 4 - Expanded, Flexible, Wrap'),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return const CompactLayout();
-          } else if (constraints.maxWidth < 840) {
-            return const MediumLayout();
-          } else {
-            return const ExpandedLayout();
-          }
-        },
-      ),
-    );
-  }
-}
-
-// ============================================================
-// COMPACT LAYOUT
-// Lebar < 600
-// ============================================================
-
-class CompactLayout extends StatelessWidget {
-  const CompactLayout({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.phone_android,
-            size: 70,
-          ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            'COMPACT',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          const Text(
-            studentName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          const Text(
-            'NIM: $studentId',
-            style: TextStyle(
-              fontSize: 18,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            'Layout untuk layar kecil / phone',
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ============================================================
-// MEDIUM LAYOUT
-// Lebar 600 - 839
-// ============================================================
-
-class MediumLayout extends StatelessWidget {
-  const MediumLayout({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.tablet_android,
-            size: 80,
-          ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            'MEDIUM',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.person),
-              const SizedBox(width: 10),
-              Text(
-                studentName,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              studentName,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-            ],
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'NIM: 2415051045',
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 24),
+
+            // DUA PANEL DENGAN EXPANDED FLEX 2:1
+            const Text(
+              'Pembagian Panel Expanded 2:1',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            SizedBox(
+              height: 180,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: buildPanel(
+                      title: 'Panel A',
+                      description: 'Flex 2',
+                      icon: Icons.dashboard,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 1,
+                    child: buildPanel(
+                      title: 'Panel B',
+                      description: 'Flex 1',
+                      icon: Icons.widgets,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // SKILL CHIPS DENGAN WRAP
+            const Text(
+              'Skills',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: const [
+                Chip(
+                  avatar: Icon(Icons.code),
+                  label: Text('Dart'),
+                ),
+                Chip(
+                  avatar: Icon(Icons.phone_android),
+                  label: Text('Flutter'),
+                ),
+                Chip(
+                  avatar: Icon(Icons.web),
+                  label: Text('Responsive UI'),
+                ),
+                Chip(
+                  avatar: Icon(Icons.storage),
+                  label: Text('JSON'),
+                ),
+                Chip(
+                  avatar: Icon(Icons.navigation),
+                  label: Text('Navigation'),
+                ),
+                Chip(
+                  avatar: Icon(Icons.design_services),
+                  label: Text('UI Design'),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 30),
+
+            const Text(
+              'Keterangan:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            const Text(
+              'Expanded membagi ruang berdasarkan nilai flex. '
+              'Panel A menggunakan flex 2 sehingga mendapatkan '
+              'ruang dua kali lebih besar dibanding Panel B yang '
+              'menggunakan flex 1.',
+              style: TextStyle(fontSize: 16),
+            ),
+
+            const SizedBox(height: 12),
+
+            const Text(
+              'Wrap membuat Chip berpindah ke baris berikutnya '
+              'ketika ruang horizontal tidak mencukupi.',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildPanel({
+    required String title,
+    required String description,
+    required IconData icon,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 50,
           ),
-
-          const SizedBox(height: 10),
-
+          const SizedBox(height: 12),
           Text(
-            'NIM: $studentId',
+            title,
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            'Layout untuk layar medium / large phone / small tablet',
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ============================================================
-// EXPANDED LAYOUT
-// Lebar >= 840
-// ============================================================
-
-class ExpandedLayout extends StatelessWidget {
-  const ExpandedLayout({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(40),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.desktop_windows,
-            size: 100,
-          ),
-
-          const SizedBox(width: 40),
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'EXPANDED',
-                style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              Text(
-                studentName,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              Text(
-                'NIM: $studentId',
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              const Text(
-                'Layout untuk tablet / desktop',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ],
+          const SizedBox(height: 6),
+          Text(
+            description,
+            style: const TextStyle(fontSize: 18),
           ),
         ],
       ),
