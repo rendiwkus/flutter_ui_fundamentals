@@ -7,6 +7,34 @@ void main() {
   runApp(const MyApp());
 }
 
+const List<Map<String, dynamic>> courses = [
+  {
+    'title': 'Pemrograman Mobile',
+    'code': 'PM101',
+    'credits': 3,
+  },
+  {
+    'title': 'Pemrograman Web',
+    'code': 'PW101',
+    'credits': 3,
+  },
+  {
+    'title': 'Basis Data',
+    'code': 'BD101',
+    'credits': 3,
+  },
+  {
+    'title': 'Jaringan Komputer',
+    'code': 'JK101',
+    'credits': 3,
+  },
+  {
+    'title': 'Kecerdasan Buatan',
+    'code': 'AI101',
+    'credits': 3,
+  },
+];
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -14,171 +42,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 11 - Adaptive Navigation',
+      title: 'Tahap 12 - Interaction',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const MainNavigationPage(),
-    );
-  }
-}
-
-class MainNavigationPage extends StatefulWidget {
-  const MainNavigationPage({super.key});
-
-  @override
-  State<MainNavigationPage> createState() =>
-      _MainNavigationPageState();
-}
-
-class _MainNavigationPageState
-    extends State<MainNavigationPage> {
-  int selectedIndex = 0;
-
-  final List<Widget> pages = const [
-    HomePage(),
-    CoursesPage(),
-    ProfilePage(),
-  ];
-
-  void changePage(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
-  NavigationBar buildNavigationBar() {
-    return NavigationBar(
-      selectedIndex: selectedIndex,
-      onDestinationSelected: changePage,
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.school_outlined),
-          selectedIcon: Icon(Icons.school),
-          label: 'Courses',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.person_outline),
-          selectedIcon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
-    );
-  }
-
-  NavigationRail buildNavigationRail() {
-    return NavigationRail(
-      selectedIndex: selectedIndex,
-      onDestinationSelected: changePage,
-      labelType: NavigationRailLabelType.all,
-      destinations: const [
-        NavigationRailDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: Text('Home'),
-        ),
-        NavigationRailDestination(
-          icon: Icon(Icons.school_outlined),
-          selectedIcon: Icon(Icons.school),
-          label: Text('Courses'),
-        ),
-        NavigationRailDestination(
-          icon: Icon(Icons.person_outline),
-          selectedIcon: Icon(Icons.person),
-          label: Text('Profile'),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 840) {
-          return Scaffold(
-            body: pages[selectedIndex],
-            bottomNavigationBar: buildNavigationBar(),
-          );
-        }
-
-        return Scaffold(
-          body: Row(
-            children: [
-              buildNavigationRail(),
-              const VerticalDivider(width: 1),
-              Expanded(
-                child: pages[selectedIndex],
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.home,
-                size: 90,
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Selamat Datang',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                studentName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'NIM: 2415051045',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Navigation akan menyesuaikan '
-                'ukuran layar secara otomatis.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      home: const CoursesPage(),
     );
   }
 }
@@ -186,23 +54,30 @@ class HomePage extends StatelessWidget {
 class CoursesPage extends StatelessWidget {
   const CoursesPage({super.key});
 
-  static const List<String> courses = [
-    'Pemrograman Mobile',
-    'Pemrograman Web',
-    'Basis Data',
-    'Jaringan Komputer',
-    'Kecerdasan Buatan',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Courses'),
+        title: const Text('Tahap 12 - Interaction'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          const Text(
+            studentName,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'NIM: 2415051045',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 24),
           const Text(
             'Daftar Course',
             style: TextStyle(
@@ -212,30 +87,16 @@ class CoursesPage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Pilih course yang ingin dipelajari.',
+            'Tap card untuk memilih dan tekan lama '
+            'untuk melihat informasi.',
             style: TextStyle(
               fontSize: 16,
             ),
           ),
           const SizedBox(height: 20),
           for (final course in courses)
-            Card(
-              margin: const EdgeInsets.only(bottom: 12),
-              child: ListTile(
-                leading: const CircleAvatar(
-                  child: Icon(Icons.menu_book),
-                ),
-                title: Text(
-                  course,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18,
-                ),
-              ),
+            CourseCard(
+              course: course,
             ),
         ],
       ),
@@ -243,52 +104,94 @@ class CoursesPage extends StatelessWidget {
   }
 }
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class CourseCard extends StatefulWidget {
+  final Map<String, dynamic> course;
+
+  const CourseCard({
+    super.key,
+    required this.course,
+  });
+
+  @override
+  State<CourseCard> createState() => _CourseCardState();
+}
+
+class _CourseCardState extends State<CourseCard> {
+  bool isFavorite = false;
+
+  void showCourseInfo() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '${widget.course['title']} - '
+          '${widget.course['code']} - '
+          '${widget.course['credits']} SKS',
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: Center(
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '${widget.course['title']} dipilih.',
+              ),
+            ),
+          );
+        },
+        onLongPress: showCourseInfo,
         child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.all(16),
+          child: Row(
             children: [
               const CircleAvatar(
-                radius: 55,
+                radius: 26,
                 child: Icon(
-                  Icons.person,
-                  size: 60,
+                  Icons.menu_book,
                 ),
               ),
-              const SizedBox(height: 24),
-              const Text(
-                studentName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.course['title'],
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '${widget.course['code']} • '
+                      '${widget.course['credits']} SKS',
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'NIM: 2415051045',
-                style: TextStyle(
-                  fontSize: 20,
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                },
+                icon: Icon(
+                  isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Mahasiswa Program Studi '
-                'Pendidikan Teknik Informatika',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                tooltip: isFavorite
+                    ? 'Hapus dari favorite'
+                    : 'Tambah ke favorite',
               ),
             ],
           ),
