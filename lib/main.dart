@@ -7,39 +7,6 @@ void main() {
   runApp(const MyApp());
 }
 
-const List<Map<String, dynamic>> courses = [
-  {
-    'title': 'Pemrograman Mobile',
-    'code': 'PM101',
-    'credits': 3,
-    'status': 'Aktif',
-  },
-  {
-    'title': 'Pemrograman Web',
-    'code': 'PW101',
-    'credits': 3,
-    'status': 'Aktif',
-  },
-  {
-    'title': 'Basis Data',
-    'code': 'BD101',
-    'credits': 3,
-    'status': 'Aktif',
-  },
-  {
-    'title': 'Jaringan Komputer',
-    'code': 'JK101',
-    'credits': 3,
-    'status': 'Aktif',
-  },
-  {
-    'title': 'Kecerdasan Buatan',
-    'code': 'AI101',
-    'credits': 3,
-    'status': 'Aktif',
-  },
-];
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -47,102 +14,161 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 9 - Returning Data',
+      title: 'Tahap 10 - NavigationBar',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const CourseListPage(),
+      home: const MainNavigationPage(),
     );
   }
 }
 
-class CourseListPage extends StatefulWidget {
-  const CourseListPage({super.key});
+class MainNavigationPage extends StatefulWidget {
+  const MainNavigationPage({super.key});
 
   @override
-  State<CourseListPage> createState() => _CourseListPageState();
+  State<MainNavigationPage> createState() =>
+      _MainNavigationPageState();
 }
 
-class _CourseListPageState extends State<CourseListPage> {
-  String resultMessage = 'Belum ada course yang selesai dipilih.';
+class _MainNavigationPageState
+    extends State<MainNavigationPage> {
+  int currentIndex = 0;
 
-  Future<void> openCourseDetail(
-    BuildContext context,
-    Map<String, dynamic> course,
-  ) async {
-    final result = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CourseDetailPage(
-          course: course,
-        ),
+  final List<Widget> pages = const [
+    HomePage(),
+    CoursesPage(),
+    ProfilePage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: currentIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.school_outlined),
+            selectedIcon: Icon(Icons.school),
+            label: 'Courses',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
-
-    if (result == true) {
-      setState(() {
-        resultMessage =
-            '${course['title']} berhasil dikonfirmasi.';
-      });
-    }
   }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Course'),
+        title: const Text('Home'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.home,
+                size: 90,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Selamat Datang',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                studentName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'NIM: 2415051045',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Gunakan NavigationBar untuk berpindah '
+                'antara Home, Courses, dan Profile.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CoursesPage extends StatelessWidget {
+  const CoursesPage({super.key});
+
+  static const List<String> courses = [
+    'Pemrograman Mobile',
+    'Pemrograman Web',
+    'Basis Data',
+    'Jaringan Komputer',
+    'Kecerdasan Buatan',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Courses'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           const Text(
-            studentName,
+            'Daftar Course',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           const Text(
-            'NIM: 2415051045',
-            style: TextStyle(fontSize: 18),
-          ),
-          const SizedBox(height: 24),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Hasil dari Detail Page',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  resultMessage,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Pilih salah satu course:',
+            'Pilih course yang ingin dipelajari.',
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
           for (final course in courses)
             Card(
               margin: const EdgeInsets.only(bottom: 12),
@@ -151,24 +177,15 @@ class _CourseListPageState extends State<CourseListPage> {
                   child: Icon(Icons.menu_book),
                 ),
                 title: Text(
-                  course['title'],
+                  course,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                subtitle: Text(
-                  '${course['code']} • ${course['credits']} SKS',
                 ),
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 18,
                 ),
-                onTap: () {
-                  openCourseDetail(
-                    context,
-                    course,
-                  );
-                },
               ),
             ),
         ],
@@ -177,120 +194,55 @@ class _CourseListPageState extends State<CourseListPage> {
   }
 }
 
-class CourseDetailPage extends StatelessWidget {
-  final Map<String, dynamic> course;
-
-  const CourseDetailPage({
-    super.key,
-    required this.course,
-  });
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Course'),
+        title: const Text('Profile'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Icon(
-              Icons.menu_book,
-              size: 80,
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Detail Course',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                radius: 55,
+                child: Icon(
+                  Icons.person,
+                  size: 60,
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Title',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 24),
+              const Text(
+                studentName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              course['title'],
-              style: const TextStyle(fontSize: 22),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Code',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 8),
+              const Text(
+                'NIM: 2415051045',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              course['code'],
-              style: const TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Credits',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 20),
+              const Text(
+                'Mahasiswa Program Studi Pendidikan '
+                'Teknik Informatika',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              '${course['credits']} SKS',
-              style: const TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Status',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              course['status'],
-              style: const TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 30),
-            const Divider(),
-            const SizedBox(height: 20),
-            const Text(
-              'Mahasiswa',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              studentName,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'NIM: 2415051045',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-                icon: const Icon(Icons.check),
-                label: const Text('Konfirmasi Course'),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
