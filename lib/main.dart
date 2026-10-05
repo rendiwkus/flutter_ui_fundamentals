@@ -7,6 +7,44 @@ void main() {
   runApp(const MyApp());
 }
 
+// DATA COURSE DALAM COLLECTION
+const List<Course> courses = [
+  Course(
+    title: 'Pemrograman Mobile',
+    description: 'Belajar membuat aplikasi mobile menggunakan Flutter.',
+  ),
+  Course(
+    title: 'Pemrograman Web',
+    description: 'Mempelajari dasar pengembangan aplikasi berbasis web.',
+  ),
+  Course(
+    title: 'Basis Data',
+    description: 'Mempelajari database, tabel, relasi, dan SQL.',
+  ),
+  Course(
+    title: 'Jaringan Komputer',
+    description: 'Mempelajari konsep jaringan dan komunikasi data.',
+  ),
+  Course(
+    title: 'Kecerdasan Buatan',
+    description: 'Mempelajari konsep dasar artificial intelligence.',
+  ),
+  Course(
+    title: 'UI/UX Design',
+    description: 'Mempelajari perancangan antarmuka dan pengalaman pengguna.',
+  ),
+];
+
+class Course {
+  final String title;
+  final String description;
+
+  const Course({
+    required this.title,
+    required this.description,
+  });
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -14,29 +52,43 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 4 - Expanded, Flexible, Wrap',
+      title: 'Tahap 5 - GridView Responsif',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const ResponsiveLayoutPage(),
+      home: const CourseGridPage(),
     );
   }
 }
 
-class ResponsiveLayoutPage extends StatelessWidget {
-  const ResponsiveLayoutPage({super.key});
+class CourseGridPage extends StatelessWidget {
+  const CourseGridPage({super.key});
+
+  // MENENTUKAN JUMLAH KOLOM BERDASARKAN LEBAR LAYAR
+  int columnsFor(double width) {
+    if (width < 600) {
+      return 1;
+    }
+
+    if (width < 840) {
+      return 2;
+    }
+
+    return 3;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tahap 4 - Expanded, Flexible, Wrap'),
+        title: const Text('Tahap 5 - GridView Responsif'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // HEADER IDENTITAS
             const Text(
               studentName,
               style: TextStyle(
@@ -44,154 +96,102 @@ class ResponsiveLayoutPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             const Text(
               'NIM: 2415051045',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 24),
-
-            // DUA PANEL DENGAN EXPANDED FLEX 2:1
-            const Text(
-              'Pembagian Panel Expanded 2:1',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            SizedBox(
-              height: 180,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: buildPanel(
-                      title: 'Panel A',
-                      description: 'Flex 2',
-                      icon: Icons.dashboard,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 1,
-                    child: buildPanel(
-                      title: 'Panel B',
-                      description: 'Flex 1',
-                      icon: Icons.widgets,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            // SKILL CHIPS DENGAN WRAP
-            const Text(
-              'Skills',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: const [
-                Chip(
-                  avatar: Icon(Icons.code),
-                  label: Text('Dart'),
-                ),
-                Chip(
-                  avatar: Icon(Icons.phone_android),
-                  label: Text('Flutter'),
-                ),
-                Chip(
-                  avatar: Icon(Icons.web),
-                  label: Text('Responsive UI'),
-                ),
-                Chip(
-                  avatar: Icon(Icons.storage),
-                  label: Text('JSON'),
-                ),
-                Chip(
-                  avatar: Icon(Icons.navigation),
-                  label: Text('Navigation'),
-                ),
-                Chip(
-                  avatar: Icon(Icons.design_services),
-                  label: Text('UI Design'),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 30),
-
-            const Text(
-              'Keterangan:',
               style: TextStyle(
                 fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            const Text(
+              'Daftar Course',
+              style: TextStyle(
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
-
-            const Text(
-              'Expanded membagi ruang berdasarkan nilai flex. '
-              'Panel A menggunakan flex 2 sehingga mendapatkan '
-              'ruang dua kali lebih besar dibanding Panel B yang '
-              'menggunakan flex 1.',
-              style: TextStyle(fontSize: 16),
-            ),
-
             const SizedBox(height: 12),
 
-            const Text(
-              'Wrap membuat Chip berpindah ke baris berikutnya '
-              'ketika ruang horizontal tidak mencukupi.',
-              style: TextStyle(fontSize: 16),
+            // GRID RESPONSIF
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return GridView.builder(
+                    gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          columnsFor(constraints.maxWidth),
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: courses.length,
+                    itemBuilder: (context, index) {
+                      return CourseCard(
+                        course: courses[index],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget buildPanel({
-    required String title,
-    required String description,
-    required IconData icon,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 50,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+// WIDGET CARD COURSE
+class CourseCard extends StatelessWidget {
+  final Course course;
+
+  const CourseCard({
+    super.key,
+    required this.course,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(
+              Icons.menu_book,
+              size: 40,
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            description,
-            style: const TextStyle(fontSize: 18),
-          ),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              course.title,
+              style: const TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Text(
+                course.description,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Lihat Course',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
