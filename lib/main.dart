@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 10 - NavigationBar',
+      title: 'Tahap 11 - Adaptive Navigation',
       theme: ThemeData(
         useMaterial3: true,
       ),
@@ -33,7 +33,7 @@ class MainNavigationPage extends StatefulWidget {
 
 class _MainNavigationPageState
     extends State<MainNavigationPage> {
-  int currentIndex = 0;
+  int selectedIndex = 0;
 
   final List<Widget> pages = const [
     HomePage(),
@@ -41,35 +41,84 @@ class _MainNavigationPageState
     ProfilePage(),
   ];
 
+  void changePage(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  NavigationBar buildNavigationBar() {
+    return NavigationBar(
+      selectedIndex: selectedIndex,
+      onDestinationSelected: changePage,
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.home_outlined),
+          selectedIcon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.school_outlined),
+          selectedIcon: Icon(Icons.school),
+          label: 'Courses',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.person_outline),
+          selectedIcon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+    );
+  }
+
+  NavigationRail buildNavigationRail() {
+    return NavigationRail(
+      selectedIndex: selectedIndex,
+      onDestinationSelected: changePage,
+      labelType: NavigationRailLabelType.all,
+      destinations: const [
+        NavigationRailDestination(
+          icon: Icon(Icons.home_outlined),
+          selectedIcon: Icon(Icons.home),
+          label: Text('Home'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.school_outlined),
+          selectedIcon: Icon(Icons.school),
+          label: Text('Courses'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.person_outline),
+          selectedIcon: Icon(Icons.person),
+          label: Text('Profile'),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[currentIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 840) {
+          return Scaffold(
+            body: pages[selectedIndex],
+            bottomNavigationBar: buildNavigationBar(),
+          );
+        }
+
+        return Scaffold(
+          body: Row(
+            children: [
+              buildNavigationRail(),
+              const VerticalDivider(width: 1),
+              Expanded(
+                child: pages[selectedIndex],
+              ),
+            ],
           ),
-          NavigationDestination(
-            icon: Icon(Icons.school_outlined),
-            selectedIcon: Icon(Icons.school),
-            label: 'Courses',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -119,8 +168,8 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Gunakan NavigationBar untuk berpindah '
-                'antara Home, Courses, dan Profile.',
+                'Navigation akan menyesuaikan '
+                'ukuran layar secara otomatis.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -234,8 +283,8 @@ class ProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Mahasiswa Program Studi Pendidikan '
-                'Teknik Informatika',
+                'Mahasiswa Program Studi '
+                'Pendidikan Teknik Informatika',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
