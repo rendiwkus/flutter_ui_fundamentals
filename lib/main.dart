@@ -7,44 +7,6 @@ void main() {
   runApp(const MyApp());
 }
 
-// DATA COURSE DALAM COLLECTION
-const List<Course> courses = [
-  Course(
-    title: 'Pemrograman Mobile',
-    description: 'Belajar membuat aplikasi mobile menggunakan Flutter.',
-  ),
-  Course(
-    title: 'Pemrograman Web',
-    description: 'Mempelajari dasar pengembangan aplikasi berbasis web.',
-  ),
-  Course(
-    title: 'Basis Data',
-    description: 'Mempelajari database, tabel, relasi, dan SQL.',
-  ),
-  Course(
-    title: 'Jaringan Komputer',
-    description: 'Mempelajari konsep jaringan dan komunikasi data.',
-  ),
-  Course(
-    title: 'Kecerdasan Buatan',
-    description: 'Mempelajari konsep dasar artificial intelligence.',
-  ),
-  Course(
-    title: 'UI/UX Design',
-    description: 'Mempelajari perancangan antarmuka dan pengalaman pengguna.',
-  ),
-];
-
-class Course {
-  final String title;
-  final String description;
-
-  const Course({
-    required this.title,
-    required this.description,
-  });
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -52,144 +14,192 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 5 - GridView Responsif',
+      title: 'Tahap 6 - Scrollable Content',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const CourseGridPage(),
+      home: const ProfileFormPage(),
     );
   }
 }
 
-class CourseGridPage extends StatelessWidget {
-  const CourseGridPage({super.key});
-
-  // MENENTUKAN JUMLAH KOLOM BERDASARKAN LEBAR LAYAR
-  int columnsFor(double width) {
-    if (width < 600) {
-      return 1;
-    }
-
-    if (width < 840) {
-      return 2;
-    }
-
-    return 3;
-  }
+class ProfileFormPage extends StatelessWidget {
+  const ProfileFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tahap 5 - GridView Responsif'),
+        title: const Text('Tahap 6 - Scrollable Content'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // HEADER IDENTITAS
+            // IDENTITAS MAHASISWA
             const Text(
               studentName,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             const Text(
               'NIM: 2415051045',
               style: TextStyle(
                 fontSize: 18,
               ),
             ),
-            const SizedBox(height: 20),
+
+            const SizedBox(height: 30),
 
             const Text(
-              'Daftar Course',
+              'Form Profil Mahasiswa',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
 
-            // GRID RESPONSIF
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return GridView.builder(
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          columnsFor(constraints.maxWidth),
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 1.5,
-                    ),
-                    itemCount: courses.length,
-                    itemBuilder: (context, index) {
-                      return CourseCard(
-                        course: courses[index],
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+            const SizedBox(height: 20),
 
-// WIDGET CARD COURSE
-class CourseCard extends StatelessWidget {
-  final Course course;
-
-  const CourseCard({
-    super.key,
-    required this.course,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Icon(
-              Icons.menu_book,
-              size: 40,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              course.title,
-              style: const TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: Text(
-                course.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
+            // NAMA
             const Text(
-              'Lihat Course',
+              'Nama Lengkap',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 8),
+            const TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan nama lengkap',
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // NIM
+            const Text(
+              'NIM',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan NIM',
+                prefixIcon: Icon(Icons.badge),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // EMAIL
+            const Text(
+              'Email',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan email',
+                prefixIcon: Icon(Icons.email),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // ALAMAT
+            const Text(
+              'Alamat',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const TextField(
+              maxLines: 3,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan alamat',
+                prefixIcon: Icon(Icons.home),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // PROGRAM STUDI
+            const Text(
+              'Program Studi',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan program studi',
+                prefixIcon: Icon(Icons.school),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // SEMESTER
+            const Text(
+              'Semester',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Masukkan semester',
+                prefixIcon: Icon(Icons.calendar_month),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.save),
+                label: const Text('Simpan Profil'),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            const Text(
+              'Catatan: Halaman ini menggunakan '
+              'SingleChildScrollView agar seluruh form '
+              'tetap dapat diakses ketika tinggi konten '
+              'melebihi tinggi layar.',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+
+            // JARAK TAMBAHAN AGAR KONTEN LEBIH TINGGI DARI LAYAR
+            const SizedBox(height: 300),
           ],
         ),
       ),
