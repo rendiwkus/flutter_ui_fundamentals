@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 13 - Form Validation',
+      title: 'Tahap 14 - Feedback',
       theme: ThemeData(
         useMaterial3: true,
       ),
@@ -31,7 +31,6 @@ class FeedbackPage extends StatefulWidget {
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
-  // GlobalKey digunakan untuk mengakses dan memvalidasi Form.
   final formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController =
@@ -43,6 +42,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final TextEditingController commentController =
       TextEditingController();
 
+  bool isLoading = false;
   String resultMessage = '';
 
   @override
@@ -53,13 +53,79 @@ class _FeedbackPageState extends State<FeedbackPage> {
     super.dispose();
   }
 
-  void submitForm() {
-    // Validasi semua field di dalam Form.
+  // Menampilkan Dialog konfirmasi sebelum aksi penting.
+  Future<void> showConfirmationDialog() async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi'),
+          content: const Text(
+            'Apakah Anda yakin ingin mengirim feedback ini?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: const Text('Batal'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: const Text('Kirim'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      submitFeedback();
+    }
+  }
+
+  // Menampilkan SnackBar setelah form valid.
+  void showSuccessSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Data feedback berhasil disimpan.',
+        ),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
+  // Simulasi proses loading singkat.
+  Future<void> submitFeedback() async {
+    setState(() {
+      isLoading = true;
+      resultMessage = '';
+    });
+
+    await Future.delayed(
+      const Duration(seconds: 2),
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = false;
+      resultMessage =
+          'Feedback berhasil dikirim oleh ${nameController.text}.';
+    });
+
+    // SnackBar ditampilkan setelah proses selesai.
+    showSuccessSnackBar();
+  }
+
+  void validateAndSubmit() {
+    // Jalankan validasi Form terlebih dahulu.
     if (formKey.currentState!.validate()) {
-      setState(() {
-        resultMessage =
-            'Feedback berhasil divalidasi untuk ${nameController.text}.';
-      });
+      // Jika valid, tampilkan Dialog konfirmasi.
+      showConfirmationDialog();
     }
   }
 
@@ -67,7 +133,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tahap 13 - Form Feedback'),
+        title: const Text('Tahap 14 - Feedback'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -86,9 +152,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
               const SizedBox(height: 6),
               const Text(
                 'NIM: 2415051045',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
               const SizedBox(height: 24),
+
               const Text(
                 'Feedback Course',
                 style: TextStyle(
@@ -97,13 +166,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ),
               ),
               const SizedBox(height: 8),
+
               const Text(
-                'Silakan isi form berikut.',
-                style: TextStyle(fontSize: 16),
+                'Isi feedback kemudian kirim setelah validasi.',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 24),
 
-              // Field Nama
+              // =========================
+              // FIELD NAMA
+              // =========================
               TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -115,13 +189,16 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Nama wajib diisi';
                   }
+
                   return null;
                 },
               ),
 
               const SizedBox(height: 16),
 
-              // Field NIM
+              // =========================
+              // FIELD NIM
+              // =========================
               TextFormField(
                 controller: nimController,
                 decoration: const InputDecoration(
@@ -133,19 +210,22 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   if (value == null || value.trim().isEmpty) {
                     return 'NIM wajib diisi';
                   }
+
                   return null;
                 },
               ),
 
               const SizedBox(height: 16),
 
-              // Field Komentar
+              // =========================
+              // FIELD KOMENTAR
+              // =========================
               TextFormField(
                 controller: commentController,
                 maxLines: 5,
                 decoration: const InputDecoration(
                   labelText: 'Komentar',
-                  hintText: 'Tulis komentar minimal 5 karakter',
+                  hintText: 'Minimal 5 karakter',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.comment),
                   alignLabelWithHint: true,
@@ -165,11 +245,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
               const SizedBox(height: 24),
 
-              // Tombol submit
+              // =========================
+              // TOMBOL KIRIM
+              // =========================
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: submitForm,
+                  onPressed: isLoading ? null : validateAndSubmit,
                   icon: const Icon(Icons.send),
                   label: const Text('Kirim Feedback'),
                 ),
@@ -177,13 +259,35 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
               const SizedBox(height: 24),
 
-              // Hasil hanya muncul jika form sudah valid.
-              if (resultMessage.isNotEmpty)
+              // =========================
+              // LOADING
+              // =========================
+              if (isLoading)
+                const Center(
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 12),
+                      Text(
+                        'Mengirim feedback...',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              // =========================
+              // HASIL
+              // =========================
+              if (resultMessage.isNotEmpty && !isLoading)
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
                       children: [
                         const Icon(
                           Icons.check_circle,
