@@ -14,193 +14,156 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tahap 6 - Scrollable Content',
+      title: 'Tahap 7 - Navigation',
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const ProfileFormPage(),
+      home: const HomePage(),
     );
   }
 }
 
-class ProfileFormPage extends StatelessWidget {
-  const ProfileFormPage({super.key});
+// ===============================
+// HOME PAGE
+// ===============================
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tahap 6 - Scrollable Content'),
+        title: const Text('Home Page'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // IDENTITAS MAHASISWA
-            const Text(
-              studentName,
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.home,
+                size: 80,
               ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'NIM: 2415051045',
-              style: TextStyle(
-                fontSize: 18,
+              const SizedBox(height: 24),
+
+              const Text(
+                studentName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 30),
+              const SizedBox(height: 8),
 
-            const Text(
-              'Form Profil Mahasiswa',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+              const Text(
+                'NIM: 2415051045',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 30),
 
-            // NAMA
-            const Text(
-              'Nama Lengkap',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              const Text(
+                'Ini adalah halaman utama.',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Masukkan nama lengkap',
-                prefixIcon: Icon(Icons.person),
+
+              const SizedBox(height: 24),
+
+              // TOMBOL MEMBUKA DETAIL
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DetailPage(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text('Buka Detail'),
               ),
-            ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-            const SizedBox(height: 20),
+// ===============================
+// DETAIL PAGE
+// ===============================
 
-            // NIM
-            const Text(
-              'NIM',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+class DetailPage extends StatelessWidget {
+  const DetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Page'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.info_outline,
+                size: 80,
               ),
-            ),
-            const SizedBox(height: 8),
-            const TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Masukkan NIM',
-                prefixIcon: Icon(Icons.badge),
+
+              const SizedBox(height: 24),
+
+              const Text(
+                'Halaman Detail',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
-            // EMAIL
-            const Text(
-              'Email',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              const Text(
+                studentName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            const TextField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Masukkan email',
-                prefixIcon: Icon(Icons.email),
+
+              const SizedBox(height: 8),
+
+              const Text(
+                'NIM: 2415051045',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 30),
 
-            // ALAMAT
-            const Text(
-              'Alamat',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              // TOMBOL KEMBALI MENGGUNAKAN NAVIGATOR.POP
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('Kembali'),
               ),
-            ),
-            const SizedBox(height: 8),
-            const TextField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Masukkan alamat',
-                prefixIcon: Icon(Icons.home),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // PROGRAM STUDI
-            const Text(
-              'Program Studi',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Masukkan program studi',
-                prefixIcon: Icon(Icons.school),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // SEMESTER
-            const Text(
-              'Semester',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Masukkan semester',
-                prefixIcon: Icon(Icons.calendar_month),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.save),
-                label: const Text('Simpan Profil'),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            const Text(
-              'Catatan: Halaman ini menggunakan '
-              'SingleChildScrollView agar seluruh form '
-              'tetap dapat diakses ketika tinggi konten '
-              'melebihi tinggi layar.',
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-
-            // JARAK TAMBAHAN AGAR KONTEN LEBIH TINGGI DARI LAYAR
-            const SizedBox(height: 300),
-          ],
+            ],
+          ),
         ),
       ),
     );
