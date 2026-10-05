@@ -62,10 +62,6 @@ const List<Map<String, dynamic>> courses = [
   },
 ];
 
-// ============================================================
-// WARNA COURSE
-// ============================================================
-
 const List<Color> courseColors = [
   Color(0xFF6366F1),
   Color(0xFF06B6D4),
@@ -76,7 +72,7 @@ const List<Color> courseColors = [
 ];
 
 // ============================================================
-// APP
+// MY APP
 // ============================================================
 
 class MyApp extends StatelessWidget {
@@ -102,14 +98,15 @@ class MyApp extends StatelessWidget {
 
 // ============================================================
 // RESPONSIVE SHELL
+// NavigationBar = compact/medium
+// NavigationRail = expanded
 // ============================================================
 
 class ResponsiveShell extends StatefulWidget {
   const ResponsiveShell({super.key});
 
   @override
-  State<ResponsiveShell> createState() =>
-      _ResponsiveShellState();
+  State<ResponsiveShell> createState() => _ResponsiveShellState();
 }
 
 class _ResponsiveShellState extends State<ResponsiveShell> {
@@ -216,6 +213,15 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  void openDebuggingPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const DebuggingPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,12 +235,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(
-          20,
-          10,
-          20,
-          30,
-        ),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -289,33 +290,53 @@ class HomePage extends StatelessWidget {
             const FeatureCard(
               icon: Icons.devices,
               title: 'Responsive Design',
-              description:
-                  'Tampilan menyesuaikan ukuran layar.',
+              description: 'Tampilan menyesuaikan ukuran layar.',
               color: Color(0xFF6366F1),
             ),
 
             const FeatureCard(
               icon: Icons.explore,
               title: 'Course Explorer',
-              description:
-                  'Jelajahi course dan lihat detailnya.',
+              description: 'Jelajahi course dan lihat detailnya.',
               color: Color(0xFF06B6D4),
             ),
 
             const FeatureCard(
               icon: Icons.favorite,
               title: 'Favorite Course',
-              description:
-                  'Tandai course favorit dengan mudah.',
+              description: 'Tandai course favorit dengan mudah.',
               color: Color(0xFFEC4899),
             ),
 
             const FeatureCard(
               icon: Icons.feedback,
               title: 'Student Feedback',
-              description:
-                  'Berikan feedback melalui form.',
+              description: 'Berikan feedback melalui form.',
               color: Color(0xFFF59E0B),
+            ),
+
+            const SizedBox(height: 20),
+
+            // ==================================================
+            // TOMBOL TAHAP 16
+            // ==================================================
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  openDebuggingPage(context);
+                },
+                icon: const Icon(Icons.bug_report),
+                label: const Text(
+                  'Buka Tahap 16 - Debugging',
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -356,15 +377,16 @@ class WelcomeBanner extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.school,
             color: Colors.white,
             size: 42,
           ),
+
           const SizedBox(height: 18),
+
           const Text(
             'Hello, Rendi! 👋',
             style: TextStyle(
@@ -373,7 +395,9 @@ class WelcomeBanner extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 8),
+
           const Text(
             'Selamat datang di Course Explorer.',
             style: TextStyle(
@@ -381,7 +405,9 @@ class WelcomeBanner extends StatelessWidget {
               fontSize: 16,
             ),
           ),
+
           const SizedBox(height: 16),
+
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 14,
@@ -439,8 +465,7 @@ class StatisticCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
             backgroundColor: color.withOpacity(0.12),
@@ -449,7 +474,9 @@ class StatisticCard extends StatelessWidget {
               color: color,
             ),
           ),
+
           const SizedBox(height: 14),
+
           Text(
             value,
             style: const TextStyle(
@@ -457,6 +484,7 @@ class StatisticCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           Text(
             title,
             style: TextStyle(
@@ -502,8 +530,9 @@ class CoursesPage extends StatelessWidget {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final columns =
-              columnsFor(constraints.maxWidth);
+          final columns = columnsFor(
+            constraints.maxWidth,
+          );
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
@@ -513,10 +542,9 @@ class CoursesPage extends StatelessWidget {
               30,
             ),
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                StudentIdentityCard(),
+                const StudentIdentityCard(),
 
                 const SizedBox(height: 24),
 
@@ -531,16 +559,15 @@ class CoursesPage extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     Container(
-                      padding:
-                          const EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE0E7FF),
-                        borderRadius:
-                            BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         '${courses.length} Courses',
@@ -567,8 +594,7 @@ class CoursesPage extends StatelessWidget {
 
                 GridView.builder(
                   shrinkWrap: true,
-                  physics:
-                      const NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: courses.length,
                   gridDelegate:
                       SliverGridDelegateWithFixedCrossAxisCount(
@@ -609,8 +635,7 @@ class CourseCard extends StatefulWidget {
   });
 
   @override
-  State<CourseCard> createState() =>
-      _CourseCardState();
+  State<CourseCard> createState() => _CourseCardState();
 }
 
 class _CourseCardState extends State<CourseCard> {
@@ -655,8 +680,7 @@ class _CourseCardState extends State<CourseCard> {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -665,8 +689,7 @@ class _CourseCardState extends State<CourseCard> {
                     height: 52,
                     decoration: BoxDecoration(
                       color: widget.color.withOpacity(0.12),
-                      borderRadius:
-                          BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
                       widget.course['icon'],
@@ -674,15 +697,16 @@ class _CourseCardState extends State<CourseCard> {
                       size: 28,
                     ),
                   ),
+
                   const Spacer(),
+
                   IconButton(
                     onPressed: () {
                       setState(() {
                         isFavorite = !isFavorite;
                       });
 
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
                             isFavorite
@@ -723,16 +747,13 @@ class _CourseCardState extends State<CourseCard> {
               Row(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          widget.color.withOpacity(0.10),
-                      borderRadius:
-                          BorderRadius.circular(10),
+                      color: widget.color.withOpacity(0.10),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       widget.course['code'],
@@ -742,7 +763,9 @@ class _CourseCardState extends State<CourseCard> {
                       ),
                     ),
                   ),
+
                   const SizedBox(width: 8),
+
                   Text(
                     '${widget.course['credits']} SKS',
                     style: TextStyle(
@@ -763,7 +786,9 @@ class _CourseCardState extends State<CourseCard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const Spacer(),
+
                   Icon(
                     Icons.arrow_forward_rounded,
                     color: widget.color,
@@ -779,7 +804,7 @@ class _CourseCardState extends State<CourseCard> {
 }
 
 // ============================================================
-// COURSE DETAIL
+// COURSE DETAIL PAGE
 // ============================================================
 
 class CourseDetailPage extends StatefulWidget {
@@ -829,9 +854,7 @@ class _CourseDetailPageState
               isFavorite
                   ? Icons.favorite
                   : Icons.favorite_border,
-              color: isFavorite
-                  ? Colors.pink
-                  : null,
+              color: isFavorite ? Colors.pink : null,
             ),
           ),
         ],
@@ -852,8 +875,7 @@ class _CourseDetailPageState
                     widget.color.withOpacity(0.65),
                   ],
                 ),
-                borderRadius:
-                    BorderRadius.circular(28),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Column(
                 crossAxisAlignment:
@@ -864,7 +886,9 @@ class _CourseDetailPageState
                     color: Colors.white,
                     size: 70,
                   ),
+
                   const SizedBox(height: 20),
+
                   Text(
                     widget.course['code'],
                     style: const TextStyle(
@@ -873,7 +897,9 @@ class _CourseDetailPageState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   const SizedBox(height: 8),
+
                   Text(
                     widget.course['title'],
                     style: const TextStyle(
@@ -897,8 +923,7 @@ class _CourseDetailPageState
             InfoRow(
               icon: Icons.credit_score,
               label: 'Credits',
-              value:
-                  '${widget.course['credits']} SKS',
+              value: '${widget.course['credits']} SKS',
             ),
 
             const SizedBox(height: 20),
@@ -924,7 +949,7 @@ class _CourseDetailPageState
 
             const SizedBox(height: 30),
 
-            StudentIdentityCard(),
+            const StudentIdentityCard(),
           ],
         ),
       ),
@@ -933,7 +958,7 @@ class _CourseDetailPageState
 }
 
 // ============================================================
-// PROFILE
+// PROFILE PAGE
 // ============================================================
 
 class ProfilePage extends StatelessWidget {
@@ -964,8 +989,7 @@ class ProfilePage extends StatelessWidget {
                     Color(0xFF3B82F6),
                   ],
                 ),
-                borderRadius:
-                    BorderRadius.circular(26),
+                borderRadius: BorderRadius.circular(26),
               ),
               child: const Column(
                 children: [
@@ -978,7 +1002,9 @@ class ProfilePage extends StatelessWidget {
                       color: Color(0xFF2563EB),
                     ),
                   ),
+
                   SizedBox(height: 16),
+
                   Text(
                     studentName,
                     textAlign: TextAlign.center,
@@ -988,7 +1014,9 @@ class ProfilePage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   SizedBox(height: 6),
+
                   Text(
                     'NIM: 2415051045',
                     style: TextStyle(
@@ -1035,8 +1063,7 @@ class FeedbackForm extends StatefulWidget {
       _FeedbackFormState();
 }
 
-class _FeedbackFormState
-    extends State<FeedbackForm> {
+class _FeedbackFormState extends State<FeedbackForm> {
   final formKey = GlobalKey<FormState>();
 
   final TextEditingController commentController =
@@ -1060,7 +1087,9 @@ class _FeedbackFormState
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Konfirmasi Feedback'),
+          title: const Text(
+            'Konfirmasi Feedback',
+          ),
           content: const Text(
             'Apakah Anda yakin ingin mengirim feedback ini?',
           ),
@@ -1135,18 +1164,17 @@ class _FeedbackFormState
             TextFormField(
               controller: commentController,
               maxLines: 4,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Komentar',
                 hintText:
                     'Bagikan pengalaman Anda...',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(
                   Icons.chat_bubble_outline,
                 ),
                 alignLabelWithHint: true,
                 filled: true,
-                fillColor:
-                    const Color(0xFFF8FAFC),
+                fillColor: Color(0xFFF8FAFC),
               ),
               validator: (value) {
                 if (value == null ||
@@ -1167,9 +1195,8 @@ class _FeedbackFormState
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: isLoading
-                    ? null
-                    : submitFeedback,
+                onPressed:
+                    isLoading ? null : submitFeedback,
                 icon: const Icon(Icons.send),
                 label: const Text(
                   'Kirim Feedback',
@@ -1185,8 +1212,11 @@ class _FeedbackFormState
 
             if (isLoading) ...[
               const SizedBox(height: 20),
+
               const CircularProgressIndicator(),
+
               const SizedBox(height: 8),
+
               const Text(
                 'Mengirim feedback...',
               ),
@@ -1202,8 +1232,7 @@ class _FeedbackFormState
 // STUDENT IDENTITY CARD
 // ============================================================
 
-class StudentIdentityCard
-    extends StatelessWidget {
+class StudentIdentityCard extends StatelessWidget {
   const StudentIdentityCard({super.key});
 
   @override
@@ -1226,7 +1255,9 @@ class StudentIdentityCard
               color: Color(0xFF4338CA),
             ),
           ),
+
           const SizedBox(width: 14),
+
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -1239,7 +1270,9 @@ class StudentIdentityCard
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+
                 const SizedBox(height: 4),
+
                 Text(
                   'NIM: $studentId',
                   style: TextStyle(
@@ -1249,6 +1282,7 @@ class StudentIdentityCard
               ],
             ),
           ),
+
           const Icon(
             Icons.verified,
             color: Color(0xFF10B981),
@@ -1282,7 +1316,9 @@ class FeatureCard extends StatelessWidget {
     return Card(
       elevation: 0,
       color: Colors.white,
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(
+        bottom: 12,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
@@ -1297,8 +1333,7 @@ class FeatureCard extends StatelessWidget {
           height: 48,
           decoration: BoxDecoration(
             color: color.withOpacity(0.12),
-            borderRadius:
-                BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14),
           ),
           child: Icon(
             icon,
@@ -1341,7 +1376,9 @@ class InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(
+        bottom: 12,
+      ),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -1353,7 +1390,9 @@ class InfoRow extends StatelessWidget {
             icon,
             color: const Color(0xFF6366F1),
           ),
+
           const SizedBox(width: 14),
+
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -1366,7 +1405,9 @@ class InfoRow extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
+
                 const SizedBox(height: 3),
+
                 Text(
                   value,
                   style: const TextStyle(
@@ -1378,6 +1419,479 @@ class InfoRow extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ============================================================
+// TAHAP 16 - DEBUGGING PAGE
+// ============================================================
+
+class DebuggingPage extends StatefulWidget {
+  const DebuggingPage({super.key});
+
+  @override
+  State<DebuggingPage> createState() =>
+      _DebuggingPageState();
+}
+
+class _DebuggingPageState
+    extends State<DebuggingPage> {
+  bool isNavigating = false;
+
+  // ==========================================================
+  // CASE D - MENCEGAH DOUBLE NAVIGATION
+  // ==========================================================
+
+  Future<void> openDetailSafely() async {
+    // Jika sedang melakukan navigasi,
+    // jangan lakukan push kedua kali.
+    if (isNavigating) {
+      return;
+    }
+
+    setState(() {
+      isNavigating = true;
+    });
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const DebugDetailPage(),
+      ),
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      isNavigating = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Tahap 16 - Debugging',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+
+      // ========================================================
+      // CASE C - KEYBOARD OVERFLOW
+      // SingleChildScrollView membuat seluruh halaman
+      // dapat digeser ketika keyboard muncul.
+      // ========================================================
+
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              // ==================================================
+              // IDENTITAS
+              // ==================================================
+
+              const StudentIdentityCard(),
+
+              const SizedBox(height: 24),
+
+              const Text(
+                'Debugging Challenge',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              Text(
+                'Contoh perbaikan masalah layout, '
+                'constraints, keyboard, dan navigation.',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 16,
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // ==================================================
+              // CASE A
+              // RENDERFLEX OVERFLOW
+              // ==================================================
+
+              const Text(
+                'Kasus A - RenderFlex Overflow',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFFE5E7EB),
+                  ),
+                ),
+                child: Row(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.info_outline,
+                      color: Color(0xFF6366F1),
+                    ),
+
+                    const SizedBox(width: 10),
+
+                    // SOLUSI CASE A:
+                    // Expanded membatasi ruang Text
+                    // agar tidak overflow.
+                    Expanded(
+                      child: Text(
+                        '$studentId - $studentName - '
+                        'Teks ini sengaja dibuat panjang '
+                        'untuk menguji responsive layout '
+                        'dan mencegah RenderFlex overflow '
+                        'pada Row.',
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 28),
+
+              // ==================================================
+              // CASE B
+              // UNBOUNDED LISTVIEW
+              // ==================================================
+
+              const Text(
+                'Kasus B - Unbounded ListView',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                height: 230,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFFE5E7EB),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      'ListView diberi tinggi yang jelas.',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    // SOLUSI CASE B:
+                    // Expanded memberikan batas tinggi
+                    // kepada ListView.
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: 4,
+                        itemBuilder:
+                            (context, index) {
+                          return ListTile(
+                            dense: true,
+                            leading: CircleAvatar(
+                              radius: 16,
+                              child: Text(
+                                '${index + 1}',
+                              ),
+                            ),
+                            title: Text(
+                              'Course ${index + 1}',
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 28),
+
+              // ==================================================
+              // CASE C
+              // KEYBOARD OVERFLOW
+              // ==================================================
+
+              const Text(
+                'Kasus C - Keyboard Overflow',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFFE5E7EB),
+                  ),
+                ),
+                child: TextFormField(
+                  maxLines: 4,
+                  decoration:
+                      const InputDecoration(
+                    labelText:
+                        'Komentar Debugging',
+                    hintText:
+                        'Coba tekan bagian ini lalu '
+                        'buka keyboard.',
+                    border:
+                        OutlineInputBorder(),
+                    alignLabelWithHint: true,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              const Text(
+                'Solusi: SingleChildScrollView membuat '
+                'form tetap dapat digeser ketika keyboard '
+                'muncul.',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+
+              const SizedBox(height: 28),
+
+              // ==================================================
+              // CASE D
+              // DOUBLE NAVIGATION
+              // ==================================================
+
+              const Text(
+                'Kasus D - Navigasi Ganda',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFFE5E7EB),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Tekan tombol hanya sekali '
+                      'untuk membuka detail.',
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child:
+                          ElevatedButton.icon(
+                        onPressed: isNavigating
+                            ? null
+                            : openDetailSafely,
+                        icon: isNavigating
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child:
+                                    CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.open_in_new,
+                              ),
+                        label: Text(
+                          isNavigating
+                              ? 'Membuka...'
+                              : 'Buka Detail',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // ==================================================
+              // RINGKASAN SOLUSI
+              // ==================================================
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEFF6FF),
+                  borderRadius:
+                      BorderRadius.circular(18),
+                ),
+                child: const Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '✓ Solusi Debugging',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    SizedBox(height: 10),
+
+                    Text(
+                      '• Row + Text → Expanded\n'
+                      '• ListView dalam Column → Expanded\n'
+                      '• Keyboard → SingleChildScrollView\n'
+                      '• Navigasi ganda → blokir aksi berulang',
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================
+// DEBUG DETAIL PAGE
+// Untuk menguji navigasi ganda
+// ============================================================
+
+class DebugDetailPage extends StatelessWidget {
+  const DebugDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Debug Detail',
+        ),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.check_circle,
+                size: 80,
+                color: Color(0xFF10B981),
+              ),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                'Navigasi berhasil!',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              const Text(
+                'Route hanya dibuka satu kali.',
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                studentName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+
+              const SizedBox(height: 4),
+
+              const Text(
+                'NIM: 2415051045',
+              ),
+
+              const SizedBox(height: 30),
+
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                ),
+                label: const Text(
+                  'Kembali',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
