@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'stage2_prop_drilling.dart';
 import 'stage3_lifting_state_up.dart';
 import 'stage4_value_notifier.dart';
+import 'stage5_change_notifier.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 void main() {
@@ -508,6 +509,20 @@ class CoursesPage extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) =>
                       const Stage4ValueNotifierPage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 5 - CHANGE NOTIFIER
+          IconButton(
+            tooltip: 'Demo Tahap 5 - ChangeNotifier',
+            icon: const Icon(Icons.change_circle_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      const Stage5ChangeNotifierPage(),
                 ),
               );
             },
