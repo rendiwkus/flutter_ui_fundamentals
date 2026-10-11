@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'providers/course_provider.dart';
 import 'stage7_watch_read_consumer.dart';
 import 'stage8_course_model.dart';
+import 'stage9_course_service.dart';
+import 'stage10_repository.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 void main() {
@@ -560,6 +562,34 @@ class CoursesPage extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) =>
                       const Stage8CourseModelPage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 9 - COURSE SERVICE
+          IconButton(
+            tooltip: 'Demo Tahap 9 - Course Service',
+            icon: const Icon(Icons.cloud_download_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      const Stage9CourseServicePage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 10 - COURSE REPOSITORY
+          IconButton(
+            tooltip: 'Demo Tahap 10 - Course Repository',
+            icon: const Icon(Icons.storage_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      const Stage10RepositoryPage(),
                 ),
               );
             },
