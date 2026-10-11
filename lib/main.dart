@@ -5,6 +5,7 @@ import 'stage4_value_notifier.dart';
 import 'stage5_change_notifier.dart';
 import 'package:provider/provider.dart';
 import 'providers/course_provider.dart';
+import 'stage7_watch_read_consumer.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 void main() {
@@ -530,6 +531,20 @@ class CoursesPage extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) =>
                       const Stage5ChangeNotifierPage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 7 - WATCH, READ, CONSUMER
+          IconButton(
+            tooltip: 'Demo Tahap 7 - Watch, Read, Consumer',
+            icon: const Icon(Icons.remove_red_eye_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      const Stage7WatchReadConsumerPage(),
                 ),
               );
             },
