@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'stage2_prop_drilling.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
-
 void main() {
   runApp(const MyApp());
 }
-
 // ============================================================
 // DATA COURSE
 // ============================================================
-
 const List<Map<String, dynamic>> courses = [
   {
     'title': 'Pemrograman Mobile',
@@ -61,7 +58,6 @@ const List<Map<String, dynamic>> courses = [
     'icon': Icons.code,
   },
 ];
-
 const List<Color> courseColors = [
   Color(0xFF6366F1),
   Color(0xFF06B6D4),
@@ -70,14 +66,11 @@ const List<Color> courseColors = [
   Color(0xFFEC4899),
   Color(0xFF8B5CF6),
 ];
-
 // ============================================================
 // MY APP
 // ============================================================
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -95,35 +88,28 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // RESPONSIVE SHELL
 // NavigationBar = compact/medium
 // NavigationRail = expanded
 // ============================================================
-
 class ResponsiveShell extends StatefulWidget {
   const ResponsiveShell({super.key});
-
   @override
   State<ResponsiveShell> createState() => _ResponsiveShellState();
 }
-
 class _ResponsiveShellState extends State<ResponsiveShell> {
   int selectedIndex = 0;
-
   final List<Widget> pages = const [
     HomePage(),
     CoursesPage(),
     ProfilePage(),
   ];
-
   void changePage(int index) {
     setState(() {
       selectedIndex = index;
     });
   }
-
   NavigationBar buildNavigationBar() {
     return NavigationBar(
       backgroundColor: Colors.white,
@@ -149,7 +135,6 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
       ],
     );
   }
-
   NavigationRail buildNavigationRail() {
     return NavigationRail(
       backgroundColor: Colors.white,
@@ -175,7 +160,6 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
       ],
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -186,7 +170,6 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
             bottomNavigationBar: buildNavigationBar(),
           );
         }
-
         return Scaffold(
           body: Row(
             children: [
@@ -205,14 +188,11 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
     );
   }
 }
-
 // ============================================================
 // HOME PAGE
 // ============================================================
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   void openDebuggingPage(BuildContext context) {
     Navigator.push(
       context,
@@ -221,7 +201,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,9 +219,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const WelcomeBanner(),
-
             const SizedBox(height: 24),
-
             const Text(
               'Overview',
               style: TextStyle(
@@ -250,9 +227,7 @@ class HomePage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 14),
-
             Row(
               children: [
                 Expanded(
@@ -274,9 +249,7 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 24),
-
             const Text(
               'Fitur Utama',
               style: TextStyle(
@@ -284,43 +257,35 @@ class HomePage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 14),
-
             const FeatureCard(
               icon: Icons.devices,
               title: 'Responsive Design',
               description: 'Tampilan menyesuaikan ukuran layar.',
               color: Color(0xFF6366F1),
             ),
-
             const FeatureCard(
               icon: Icons.explore,
               title: 'Course Explorer',
               description: 'Jelajahi course dan lihat detailnya.',
               color: Color(0xFF06B6D4),
             ),
-
             const FeatureCard(
               icon: Icons.favorite,
               title: 'Favorite Course',
               description: 'Tandai course favorit dengan mudah.',
               color: Color(0xFFEC4899),
             ),
-
             const FeatureCard(
               icon: Icons.feedback,
               title: 'Student Feedback',
               description: 'Berikan feedback melalui form.',
               color: Color(0xFFF59E0B),
             ),
-
             const SizedBox(height: 20),
-
             // ==================================================
             // TOMBOL TAHAP 16
             // ==================================================
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -344,14 +309,11 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // WELCOME BANNER
 // ============================================================
-
 class WelcomeBanner extends StatelessWidget {
   const WelcomeBanner({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -384,9 +346,7 @@ class WelcomeBanner extends StatelessWidget {
             color: Colors.white,
             size: 42,
           ),
-
           const SizedBox(height: 18),
-
           const Text(
             'Hello, Rendi! 👋',
             style: TextStyle(
@@ -395,9 +355,7 @@ class WelcomeBanner extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 8),
-
           const Text(
             'Selamat datang di Course Explorer.',
             style: TextStyle(
@@ -405,9 +363,7 @@ class WelcomeBanner extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-
           const SizedBox(height: 16),
-
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 14,
@@ -430,17 +386,14 @@ class WelcomeBanner extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // STATISTIC CARD
 // ============================================================
-
 class StatisticCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String value;
   final Color color;
-
   const StatisticCard({
     super.key,
     required this.icon,
@@ -448,7 +401,6 @@ class StatisticCard extends StatelessWidget {
     required this.value,
     required this.color,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -474,9 +426,7 @@ class StatisticCard extends StatelessWidget {
               color: color,
             ),
           ),
-
           const SizedBox(height: 14),
-
           Text(
             value,
             style: const TextStyle(
@@ -484,7 +434,6 @@ class StatisticCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           Text(
             title,
             style: TextStyle(
@@ -496,26 +445,20 @@ class StatisticCard extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // COURSES PAGE
 // ============================================================
-
 class CoursesPage extends StatelessWidget {
   const CoursesPage({super.key});
-
   int columnsFor(double width) {
     if (width < 600) {
       return 1;
     }
-
     if (width < 840) {
       return 2;
     }
-
     return 3;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -527,13 +470,26 @@ class CoursesPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Demo Prop Drilling',
+            icon: const Icon(Icons.account_tree_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const Stage2DemoPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final columns = columnsFor(
             constraints.maxWidth,
           );
-
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
               20,
@@ -545,9 +501,7 @@ class CoursesPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const StudentIdentityCard(),
-
                 const SizedBox(height: 24),
-
                 Row(
                   children: [
                     const Expanded(
@@ -559,7 +513,6 @@ class CoursesPage extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
@@ -579,9 +532,7 @@ class CoursesPage extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 8),
-
                 Text(
                   'Pilih course untuk melihat detail.',
                   style: TextStyle(
@@ -589,9 +540,7 @@ class CoursesPage extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -619,28 +568,22 @@ class CoursesPage extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // COURSE CARD
 // ============================================================
-
 class CourseCard extends StatefulWidget {
   final Map<String, dynamic> course;
   final Color color;
-
   const CourseCard({
     super.key,
     required this.course,
     required this.color,
   });
-
   @override
   State<CourseCard> createState() => _CourseCardState();
 }
-
 class _CourseCardState extends State<CourseCard> {
   bool isFavorite = false;
-
   void openDetail() {
     Navigator.push(
       context,
@@ -652,7 +595,6 @@ class _CourseCardState extends State<CourseCard> {
       ),
     );
   }
-
   void showCourseInfo() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -664,7 +606,6 @@ class _CourseCardState extends State<CourseCard> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -697,15 +638,12 @@ class _CourseCardState extends State<CourseCard> {
                       size: 28,
                     ),
                   ),
-
                   const Spacer(),
-
                   IconButton(
                     onPressed: () {
                       setState(() {
                         isFavorite = !isFavorite;
                       });
-
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -729,9 +667,7 @@ class _CourseCardState extends State<CourseCard> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 18),
-
               Text(
                 widget.course['title'],
                 maxLines: 2,
@@ -741,9 +677,7 @@ class _CourseCardState extends State<CourseCard> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 8),
-
               Row(
                 children: [
                   Container(
@@ -763,9 +697,7 @@ class _CourseCardState extends State<CourseCard> {
                       ),
                     ),
                   ),
-
                   const SizedBox(width: 8),
-
                   Text(
                     '${widget.course['credits']} SKS',
                     style: TextStyle(
@@ -774,9 +706,7 @@ class _CourseCardState extends State<CourseCard> {
                   ),
                 ],
               ),
-
               const Spacer(),
-
               Row(
                 children: [
                   Text(
@@ -786,9 +716,7 @@ class _CourseCardState extends State<CourseCard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const Spacer(),
-
                   Icon(
                     Icons.arrow_forward_rounded,
                     color: widget.color,
@@ -802,35 +730,28 @@ class _CourseCardState extends State<CourseCard> {
     );
   }
 }
-
 // ============================================================
 // COURSE DETAIL PAGE
 // ============================================================
-
 class CourseDetailPage extends StatefulWidget {
   final Map<String, dynamic> course;
   final Color color;
-
   const CourseDetailPage({
     super.key,
     required this.course,
     required this.color,
   });
-
   @override
   State<CourseDetailPage> createState() =>
       _CourseDetailPageState();
 }
-
 class _CourseDetailPageState
     extends State<CourseDetailPage> {
   bool isFavorite = false;
-
   void toggleFavorite() {
     setState(() {
       isFavorite = !isFavorite;
     });
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -841,7 +762,6 @@ class _CourseDetailPageState
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -886,9 +806,7 @@ class _CourseDetailPageState
                     color: Colors.white,
                     size: 70,
                   ),
-
                   const SizedBox(height: 20),
-
                   Text(
                     widget.course['code'],
                     style: const TextStyle(
@@ -897,9 +815,7 @@ class _CourseDetailPageState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 8),
-
                   Text(
                     widget.course['title'],
                     style: const TextStyle(
@@ -911,23 +827,18 @@ class _CourseDetailPageState
                 ],
               ),
             ),
-
             const SizedBox(height: 24),
-
             InfoRow(
               icon: Icons.code,
               label: 'Course Code',
               value: widget.course['code'],
             ),
-
             InfoRow(
               icon: Icons.credit_score,
               label: 'Credits',
               value: '${widget.course['credits']} SKS',
             ),
-
             const SizedBox(height: 20),
-
             const Text(
               'Deskripsi Course',
               style: TextStyle(
@@ -935,9 +846,7 @@ class _CourseDetailPageState
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 10),
-
             Text(
               widget.course['description'],
               style: TextStyle(
@@ -946,9 +855,7 @@ class _CourseDetailPageState
                 color: Colors.grey.shade700,
               ),
             ),
-
             const SizedBox(height: 30),
-
             const StudentIdentityCard(),
           ],
         ),
@@ -956,14 +863,11 @@ class _CourseDetailPageState
     );
   }
 }
-
 // ============================================================
 // PROFILE PAGE
 // ============================================================
-
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1002,9 +906,7 @@ class ProfilePage extends StatelessWidget {
                       color: Color(0xFF2563EB),
                     ),
                   ),
-
                   SizedBox(height: 16),
-
                   Text(
                     studentName,
                     textAlign: TextAlign.center,
@@ -1014,9 +916,7 @@ class ProfilePage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   SizedBox(height: 6),
-
                   Text(
                     'NIM: 2415051045',
                     style: TextStyle(
@@ -1027,9 +927,7 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 28),
-
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -1040,9 +938,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 12),
-
             const FeedbackForm(),
           ],
         ),
@@ -1050,38 +946,29 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // FEEDBACK FORM
 // ============================================================
-
 class FeedbackForm extends StatefulWidget {
   const FeedbackForm({super.key});
-
   @override
   State<FeedbackForm> createState() =>
       _FeedbackFormState();
 }
-
 class _FeedbackFormState extends State<FeedbackForm> {
   final formKey = GlobalKey<FormState>();
-
   final TextEditingController commentController =
       TextEditingController();
-
   bool isLoading = false;
-
   @override
   void dispose() {
     commentController.dispose();
     super.dispose();
   }
-
   Future<void> submitFeedback() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
-
     final bool? confirmed =
         await showDialog<bool>(
       context: context,
@@ -1110,27 +997,21 @@ class _FeedbackFormState extends State<FeedbackForm> {
         );
       },
     );
-
     if (confirmed != true) {
       return;
     }
-
     setState(() {
       isLoading = true;
     });
-
     await Future.delayed(
       const Duration(seconds: 2),
     );
-
     if (!mounted) {
       return;
     }
-
     setState(() {
       isLoading = false;
     });
-
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
@@ -1138,10 +1019,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
         ),
       ),
     );
-
     commentController.clear();
   }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -1181,17 +1060,13 @@ class _FeedbackFormState extends State<FeedbackForm> {
                     value.trim().isEmpty) {
                   return 'Komentar wajib diisi';
                 }
-
                 if (value.trim().length < 5) {
                   return 'Komentar minimal 5 karakter';
                 }
-
                 return null;
               },
             ),
-
             const SizedBox(height: 16),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -1209,14 +1084,10 @@ class _FeedbackFormState extends State<FeedbackForm> {
                 ),
               ),
             ),
-
             if (isLoading) ...[
               const SizedBox(height: 20),
-
               const CircularProgressIndicator(),
-
               const SizedBox(height: 8),
-
               const Text(
                 'Mengirim feedback...',
               ),
@@ -1227,14 +1098,11 @@ class _FeedbackFormState extends State<FeedbackForm> {
     );
   }
 }
-
 // ============================================================
 // STUDENT IDENTITY CARD
 // ============================================================
-
 class StudentIdentityCard extends StatelessWidget {
   const StudentIdentityCard({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1255,9 +1123,7 @@ class StudentIdentityCard extends StatelessWidget {
               color: Color(0xFF4338CA),
             ),
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -1270,9 +1136,7 @@ class StudentIdentityCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 4),
-
                 Text(
                   'NIM: $studentId',
                   style: TextStyle(
@@ -1282,7 +1146,6 @@ class StudentIdentityCard extends StatelessWidget {
               ],
             ),
           ),
-
           const Icon(
             Icons.verified,
             color: Color(0xFF10B981),
@@ -1292,17 +1155,14 @@ class StudentIdentityCard extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // FEATURE CARD
 // ============================================================
-
 class FeatureCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
   final Color color;
-
   const FeatureCard({
     super.key,
     required this.icon,
@@ -1310,7 +1170,6 @@ class FeatureCard extends StatelessWidget {
     required this.description,
     required this.color,
   });
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -1356,23 +1215,19 @@ class FeatureCard extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // INFO ROW
 // ============================================================
-
 class InfoRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
-
   const InfoRow({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1390,9 +1245,7 @@ class InfoRow extends StatelessWidget {
             icon,
             color: const Color(0xFF6366F1),
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -1405,9 +1258,7 @@ class InfoRow extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-
                 const SizedBox(height: 3),
-
                 Text(
                   value,
                   style: const TextStyle(
@@ -1423,54 +1274,43 @@ class InfoRow extends StatelessWidget {
     );
   }
 }
-
 // ============================================================
 // TAHAP 16 - DEBUGGING PAGE
 // ============================================================
-
 class DebuggingPage extends StatefulWidget {
   const DebuggingPage({super.key});
-
   @override
   State<DebuggingPage> createState() =>
       _DebuggingPageState();
 }
-
 class _DebuggingPageState
     extends State<DebuggingPage> {
   bool isNavigating = false;
-
   // ==========================================================
   // CASE D - MENCEGAH DOUBLE NAVIGATION
   // ==========================================================
-
   Future<void> openDetailSafely() async {
     // Jika sedang melakukan navigasi,
     // jangan lakukan push kedua kali.
     if (isNavigating) {
       return;
     }
-
     setState(() {
       isNavigating = true;
     });
-
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => const DebugDetailPage(),
       ),
     );
-
     if (!mounted) {
       return;
     }
-
     setState(() {
       isNavigating = false;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1482,13 +1322,11 @@ class _DebuggingPageState
           ),
         ),
       ),
-
       // ========================================================
       // CASE C - KEYBOARD OVERFLOW
       // SingleChildScrollView membuat seluruh halaman
       // dapat digeser ketika keyboard muncul.
       // ========================================================
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -1499,11 +1337,8 @@ class _DebuggingPageState
               // ==================================================
               // IDENTITAS
               // ==================================================
-
               const StudentIdentityCard(),
-
               const SizedBox(height: 24),
-
               const Text(
                 'Debugging Challenge',
                 style: TextStyle(
@@ -1511,9 +1346,7 @@ class _DebuggingPageState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 8),
-
               Text(
                 'Contoh perbaikan masalah layout, '
                 'constraints, keyboard, dan navigation.',
@@ -1522,14 +1355,11 @@ class _DebuggingPageState
                   fontSize: 16,
                 ),
               ),
-
               const SizedBox(height: 24),
-
               // ==================================================
               // CASE A
               // RENDERFLEX OVERFLOW
               // ==================================================
-
               const Text(
                 'Kasus A - RenderFlex Overflow',
                 style: TextStyle(
@@ -1537,9 +1367,7 @@ class _DebuggingPageState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
@@ -1559,9 +1387,7 @@ class _DebuggingPageState
                       Icons.info_outline,
                       color: Color(0xFF6366F1),
                     ),
-
                     const SizedBox(width: 10),
-
                     // SOLUSI CASE A:
                     // Expanded membatasi ruang Text
                     // agar tidak overflow.
@@ -1578,14 +1404,11 @@ class _DebuggingPageState
                   ],
                 ),
               ),
-
               const SizedBox(height: 28),
-
               // ==================================================
               // CASE B
               // UNBOUNDED LISTVIEW
               // ==================================================
-
               const Text(
                 'Kasus B - Unbounded ListView',
                 style: TextStyle(
@@ -1593,9 +1416,7 @@ class _DebuggingPageState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               Container(
                 height: 230,
                 padding: const EdgeInsets.all(12),
@@ -1615,9 +1436,7 @@ class _DebuggingPageState
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     // SOLUSI CASE B:
                     // Expanded memberikan batas tinggi
                     // kepada ListView.
@@ -1644,14 +1463,11 @@ class _DebuggingPageState
                   ],
                 ),
               ),
-
               const SizedBox(height: 28),
-
               // ==================================================
               // CASE C
               // KEYBOARD OVERFLOW
               // ==================================================
-
               const Text(
                 'Kasus C - Keyboard Overflow',
                 style: TextStyle(
@@ -1659,9 +1475,7 @@ class _DebuggingPageState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -1687,9 +1501,7 @@ class _DebuggingPageState
                   ),
                 ),
               ),
-
               const SizedBox(height: 12),
-
               const Text(
                 'Solusi: SingleChildScrollView membuat '
                 'form tetap dapat digeser ketika keyboard '
@@ -1698,14 +1510,11 @@ class _DebuggingPageState
                   fontSize: 14,
                 ),
               ),
-
               const SizedBox(height: 28),
-
               // ==================================================
               // CASE D
               // DOUBLE NAVIGATION
               // ==================================================
-
               const Text(
                 'Kasus D - Navigasi Ganda',
                 style: TextStyle(
@@ -1713,9 +1522,7 @@ class _DebuggingPageState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -1734,9 +1541,7 @@ class _DebuggingPageState
                       'Tekan tombol hanya sekali '
                       'untuk membuka detail.',
                     ),
-
                     const SizedBox(height: 14),
-
                     SizedBox(
                       width: double.infinity,
                       child:
@@ -1766,13 +1571,10 @@ class _DebuggingPageState
                   ],
                 ),
               ),
-
               const SizedBox(height: 24),
-
               // ==================================================
               // RINGKASAN SOLUSI
               // ==================================================
-
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(18),
@@ -1792,9 +1594,7 @@ class _DebuggingPageState
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     SizedBox(height: 10),
-
                     Text(
                       '• Row + Text → Expanded\n'
                       '• ListView dalam Column → Expanded\n'
@@ -1804,7 +1604,6 @@ class _DebuggingPageState
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
             ],
           ),
@@ -1813,15 +1612,12 @@ class _DebuggingPageState
     );
   }
 }
-
 // ============================================================
 // DEBUG DETAIL PAGE
 // Untuk menguji navigasi ganda
 // ============================================================
-
 class DebugDetailPage extends StatelessWidget {
   const DebugDetailPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1842,9 +1638,7 @@ class DebugDetailPage extends StatelessWidget {
                 size: 80,
                 color: Color(0xFF10B981),
               ),
-
               const SizedBox(height: 20),
-
               const Text(
                 'Navigasi berhasil!',
                 style: TextStyle(
@@ -1852,16 +1646,12 @@ class DebugDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 10),
-
               const Text(
                 'Route hanya dibuka satu kali.',
                 textAlign: TextAlign.center,
               ),
-
               const SizedBox(height: 20),
-
               const Text(
                 studentName,
                 style: TextStyle(
@@ -1869,15 +1659,11 @@ class DebugDetailPage extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
-
               const SizedBox(height: 4),
-
               const Text(
                 'NIM: 2415051045',
               ),
-
               const SizedBox(height: 30),
-
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.pop(context);
