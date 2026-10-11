@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'stage2_prop_drilling.dart';
+import 'stage3_lifting_state_up.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 void main() {
@@ -479,6 +480,18 @@ class CoursesPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const Stage2DemoPage(),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            tooltip: 'Demo Lifting State Up',
+            icon: const Icon(Icons.hub_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const Stage3DemoPage(),
                 ),
               );
             },
