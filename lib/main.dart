@@ -3,10 +3,17 @@ import 'stage2_prop_drilling.dart';
 import 'stage3_lifting_state_up.dart';
 import 'stage4_value_notifier.dart';
 import 'stage5_change_notifier.dart';
+import 'package:provider/provider.dart';
+import 'providers/course_provider.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CourseProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 // ============================================================
 // DATA COURSE
