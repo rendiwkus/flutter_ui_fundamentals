@@ -370,7 +370,7 @@ class WelcomeBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.indigo.withOpacity(0.25),
+            color: Colors.indigo.withValues(alpha: 0.25),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -414,7 +414,7 @@ class WelcomeBanner extends StatelessWidget {
               vertical: 8,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.18),
+              color: Colors.white.withValues(alpha: 0.18),
               borderRadius: BorderRadius.circular(30),
             ),
             child: const Text(
@@ -458,7 +458,7 @@ class StatisticCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 5),
           ),
@@ -468,7 +468,7 @@ class StatisticCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            backgroundColor: color.withOpacity(0.12),
+            backgroundColor: color.withValues(alpha: 0.12),
             child: Icon(
               icon,
               color: color,
@@ -688,7 +688,7 @@ class _CourseCardState extends State<CourseCard> {
                     width: 52,
                     height: 52,
                     decoration: BoxDecoration(
-                      color: widget.color.withOpacity(0.12),
+                      color: widget.color.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
@@ -752,7 +752,7 @@ class _CourseCardState extends State<CourseCard> {
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                      color: widget.color.withOpacity(0.10),
+                      color: widget.color.withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -872,7 +872,7 @@ class _CourseDetailPageState
                 gradient: LinearGradient(
                   colors: [
                     widget.color,
-                    widget.color.withOpacity(0.65),
+                    widget.color.withValues(alpha: 0.65),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(28),
@@ -1153,7 +1153,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 15,
               offset: const Offset(0, 6),
             ),
@@ -1332,7 +1332,7 @@ class FeatureCard extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(14),
           ),
           child: Icon(
