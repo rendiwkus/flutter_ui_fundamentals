@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'stage2_prop_drilling.dart';
 import 'stage3_lifting_state_up.dart';
+import 'stage4_value_notifier.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 void main() {
@@ -449,17 +450,16 @@ class StatisticCard extends StatelessWidget {
 // ============================================================
 // COURSES PAGE
 // ============================================================
+
 class CoursesPage extends StatelessWidget {
   const CoursesPage({super.key});
+
   int columnsFor(double width) {
-    if (width < 600) {
-      return 1;
-    }
-    if (width < 840) {
-      return 2;
-    }
+    if (width < 600) return 1;
+    if (width < 840) return 2;
     return 3;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -467,11 +467,10 @@ class CoursesPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: const Text(
           'Explore Courses',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
+          // TAHAP 2 - PROP DRILLING
           IconButton(
             tooltip: 'Demo Prop Drilling',
             icon: const Icon(Icons.account_tree_outlined),
@@ -484,6 +483,8 @@ class CoursesPage extends StatelessWidget {
               );
             },
           ),
+
+          // TAHAP 3 - LIFTING STATE UP
           IconButton(
             tooltip: 'Demo Lifting State Up',
             icon: const Icon(Icons.hub_outlined),
@@ -496,13 +497,27 @@ class CoursesPage extends StatelessWidget {
               );
             },
           ),
+
+          // TAHAP 4 - VALUE NOTIFIER
+          IconButton(
+            tooltip: 'Demo Tahap 4 - ValueNotifier',
+            icon: const Icon(Icons.exposure_plus_1),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      const Stage4ValueNotifierPage(),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final columns = columnsFor(
-            constraints.maxWidth,
-          );
+          final columns = columnsFor(constraints.maxWidth);
+
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
               20,
@@ -563,8 +578,7 @@ class CoursesPage extends StatelessWidget {
                     crossAxisCount: columns,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    childAspectRatio:
-                        columns == 1 ? 2.0 : 1.15,
+                    childAspectRatio: columns == 1 ? 2.0 : 1.15,
                   ),
                   itemBuilder: (context, index) {
                     return CourseCard(
@@ -581,6 +595,7 @@ class CoursesPage extends StatelessWidget {
     );
   }
 }
+
 // ============================================================
 // COURSE CARD
 // ============================================================
