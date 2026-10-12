@@ -1,25 +1,31 @@
-
 import 'package:flutter/foundation.dart';
 
-/// Mengelola state favorite untuk Course Explorer.
-///
-/// Class ini akan disediakan melalui Provider agar bisa
-/// diakses oleh widget di dalam widget tree.
+import '../models/course.dart';
+import '../repositories/course_repository.dart';
+
 class CourseProvider extends ChangeNotifier {
+  final CourseRepository repository;
+
+  CourseProvider(this.repository);
+
+  // Data mata kuliah
+  List<Course> courses = [];
+
+  // Status asynchronous
+  bool isLoading = false;
+  String? error;
+
+  // Data favorit dari tahap sebelumnya
   final Set<String> _favorites = {};
 
-  /// Daftar ID course yang sedang menjadi favorite.
   Set<String> get favorites => Set.unmodifiable(_favorites);
 
-  /// Jumlah course yang menjadi favorite.
   int get favoriteCount => _favorites.length;
 
-  /// Memeriksa apakah sebuah course sudah menjadi favorite.
   bool isFavorite(String courseId) {
     return _favorites.contains(courseId);
   }
 
-  /// Menambahkan atau menghapus course dari favorite.
   void toggleFavorite(String courseId) {
     if (_favorites.contains(courseId)) {
       _favorites.remove(courseId);
@@ -27,7 +33,22 @@ class CourseProvider extends ChangeNotifier {
       _favorites.add(courseId);
     }
 
-    // Memberi tahu listener bahwa state telah berubah.
     notifyListeners();
+  }
+
+  // Memuat data mata kuliah
+  Future<void> loadCourses() async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      courses = await repository.getCourses();
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

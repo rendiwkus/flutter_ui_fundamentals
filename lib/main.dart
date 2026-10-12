@@ -1,24 +1,34 @@
+import 'repositories/course_repository.dart';
+import 'services/course_service.dart';
+
 import 'package:flutter/material.dart';
+
 import 'stage2_prop_drilling.dart';
 import 'stage3_lifting_state_up.dart';
 import 'stage4_value_notifier.dart';
 import 'stage5_change_notifier.dart';
+
 import 'package:provider/provider.dart';
+
 import 'providers/course_provider.dart';
 import 'stage7_watch_read_consumer.dart';
 import 'stage8_course_model.dart';
 import 'stage9_course_service.dart';
 import 'stage10_repository.dart';
+import 'stage11_provider_async_state.dart';
+
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
+
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CourseProvider(),
+    ChangeNotifierProvider<CourseProvider>(
+      create: (_) => CourseProvider(CourseRepository(CourseService())),
       child: const MyApp(),
     ),
   );
 }
+
 // ============================================================
 // DATA COURSE
 // ============================================================
@@ -35,24 +45,21 @@ const List<Map<String, dynamic>> courses = [
     'title': 'Pemrograman Web',
     'code': 'PW101',
     'credits': 3,
-    'description':
-        'Mempelajari konsep dan pengembangan aplikasi berbasis web.',
+    'description': 'Mempelajari konsep dan pengembangan aplikasi berbasis web.',
     'icon': Icons.language,
   },
   {
     'title': 'Basis Data',
     'code': 'BD101',
     'credits': 3,
-    'description':
-        'Mempelajari database, tabel, query, dan pengelolaan data.',
+    'description': 'Mempelajari database, tabel, query, dan pengelolaan data.',
     'icon': Icons.storage,
   },
   {
     'title': 'Jaringan Komputer',
     'code': 'JK101',
     'credits': 3,
-    'description':
-        'Mempelajari jaringan komputer dan komunikasi data.',
+    'description': 'Mempelajari jaringan komputer dan komunikasi data.',
     'icon': Icons.wifi,
   },
   {
@@ -80,6 +87,7 @@ const List<Color> courseColors = [
   Color(0xFFEC4899),
   Color(0xFF8B5CF6),
 ];
+
 // ============================================================
 // MY APP
 // ============================================================
@@ -102,6 +110,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 // ============================================================
 // RESPONSIVE SHELL
 // NavigationBar = compact/medium
@@ -112,18 +121,16 @@ class ResponsiveShell extends StatefulWidget {
   @override
   State<ResponsiveShell> createState() => _ResponsiveShellState();
 }
+
 class _ResponsiveShellState extends State<ResponsiveShell> {
   int selectedIndex = 0;
-  final List<Widget> pages = const [
-    HomePage(),
-    CoursesPage(),
-    ProfilePage(),
-  ];
+  final List<Widget> pages = const [HomePage(), CoursesPage(), ProfilePage()];
   void changePage(int index) {
     setState(() {
       selectedIndex = index;
     });
   }
+
   NavigationBar buildNavigationBar() {
     return NavigationBar(
       backgroundColor: Colors.white,
@@ -149,6 +156,7 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
       ],
     );
   }
+
   NavigationRail buildNavigationRail() {
     return NavigationRail(
       backgroundColor: Colors.white,
@@ -174,6 +182,7 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -188,13 +197,8 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
           body: Row(
             children: [
               buildNavigationRail(),
-              const VerticalDivider(
-                width: 1,
-                thickness: 1,
-              ),
-              Expanded(
-                child: pages[selectedIndex],
-              ),
+              const VerticalDivider(width: 1, thickness: 1),
+              Expanded(child: pages[selectedIndex]),
             ],
           ),
         );
@@ -202,6 +206,7 @@ class _ResponsiveShellState extends State<ResponsiveShell> {
     );
   }
 }
+
 // ============================================================
 // HOME PAGE
 // ============================================================
@@ -210,11 +215,10 @@ class HomePage extends StatelessWidget {
   void openDebuggingPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => const DebuggingPage(),
-      ),
+      MaterialPageRoute(builder: (_) => const DebuggingPage()),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,9 +226,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: const Text(
           'Course Explorer',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
@@ -236,10 +238,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 24),
             const Text(
               'Overview',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 14),
             Row(
@@ -266,10 +265,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 24),
             const Text(
               'Fitur Utama',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 14),
             const FeatureCard(
@@ -307,13 +303,9 @@ class HomePage extends StatelessWidget {
                   openDebuggingPage(context);
                 },
                 icon: const Icon(Icons.bug_report),
-                label: const Text(
-                  'Buka Tahap 16 - Debugging',
-                ),
+                label: const Text('Buka Tahap 16 - Debugging'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
             ),
@@ -323,6 +315,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
 // ============================================================
 // WELCOME BANNER
 // ============================================================
@@ -335,11 +328,7 @@ class WelcomeBanner extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFF6366F1),
-            Color(0xFF8B5CF6),
-            Color(0xFFEC4899),
-          ],
+          colors: [Color(0xFF6366F1), Color(0xFF8B5CF6), Color(0xFFEC4899)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -355,11 +344,7 @@ class WelcomeBanner extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.school,
-            color: Colors.white,
-            size: 42,
-          ),
+          const Icon(Icons.school, color: Colors.white, size: 42),
           const SizedBox(height: 18),
           const Text(
             'Hello, Rendi! 👋',
@@ -372,17 +357,11 @@ class WelcomeBanner extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             'Selamat datang di Course Explorer.',
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 16),
           ),
           const SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.18),
               borderRadius: BorderRadius.circular(30),
@@ -400,6 +379,7 @@ class WelcomeBanner extends StatelessWidget {
     );
   }
 }
+
 // ============================================================
 // STATISTIC CARD
 // ============================================================
@@ -435,25 +415,14 @@ class StatisticCard extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundColor: color.withValues(alpha: 0.12),
-            child: Icon(
-              icon,
-              color: color,
-            ),
+            child: Icon(icon, color: color),
           ),
           const SizedBox(height: 14),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey.shade600,
-            ),
-          ),
+          Text(title, style: TextStyle(color: Colors.grey.shade600)),
         ],
       ),
     );
@@ -489,9 +458,7 @@ class CoursesPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const Stage2DemoPage(),
-                ),
+                MaterialPageRoute(builder: (_) => const Stage2DemoPage()),
               );
             },
           ),
@@ -503,9 +470,7 @@ class CoursesPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const Stage3DemoPage(),
-                ),
+                MaterialPageRoute(builder: (_) => const Stage3DemoPage()),
               );
             },
           ),
@@ -518,8 +483,7 @@ class CoursesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      const Stage4ValueNotifierPage(),
+                  builder: (_) => const Stage4ValueNotifierPage(),
                 ),
               );
             },
@@ -532,8 +496,7 @@ class CoursesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      const Stage5ChangeNotifierPage(),
+                  builder: (_) => const Stage5ChangeNotifierPage(),
                 ),
               );
             },
@@ -546,8 +509,7 @@ class CoursesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      const Stage7WatchReadConsumerPage(),
+                  builder: (_) => const Stage7WatchReadConsumerPage(),
                 ),
               );
             },
@@ -560,8 +522,7 @@ class CoursesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      const Stage8CourseModelPage(),
+                  builder: (_) => const Stage8CourseModelPage(),
                 ),
               );
             },
@@ -574,8 +535,7 @@ class CoursesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      const Stage9CourseServicePage(),
+                  builder: (_) => const Stage9CourseServicePage(),
                 ),
               );
             },
@@ -588,8 +548,20 @@ class CoursesPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      const Stage10RepositoryPage(),
+                  builder: (_) => const Stage10RepositoryPage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 11 - PROVIDER ASYNC STATE
+          IconButton(
+            tooltip: 'Demo Tahap 11 - Provider Async State',
+            icon: const Icon(Icons.sync_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const Stage11ProviderAsyncStatePage(),
                 ),
               );
             },
@@ -601,12 +573,7 @@ class CoursesPage extends StatelessWidget {
           final columns = columnsFor(constraints.maxWidth);
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              20,
-              10,
-              20,
-              30,
-            ),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -645,18 +612,14 @@ class CoursesPage extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   'Pilih course untuk melihat detail.',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
                 ),
                 const SizedBox(height: 20),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: courses.length,
-                  gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: columns,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
@@ -684,27 +647,23 @@ class CoursesPage extends StatelessWidget {
 class CourseCard extends StatefulWidget {
   final Map<String, dynamic> course;
   final Color color;
-  const CourseCard({
-    super.key,
-    required this.course,
-    required this.color,
-  });
+  const CourseCard({super.key, required this.course, required this.color});
   @override
   State<CourseCard> createState() => _CourseCardState();
 }
+
 class _CourseCardState extends State<CourseCard> {
   bool isFavorite = false;
   void openDetail() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => CourseDetailPage(
-          course: widget.course,
-          color: widget.color,
-        ),
+        builder: (_) =>
+            CourseDetailPage(course: widget.course, color: widget.color),
       ),
     );
   }
+
   void showCourseInfo() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -716,15 +675,14 @@ class _CourseCardState extends State<CourseCard> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
       color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(22),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       child: InkWell(
         onTap: openDetail,
         onLongPress: showCourseInfo,
@@ -759,20 +717,16 @@ class _CourseCardState extends State<CourseCard> {
                           content: Text(
                             isFavorite
                                 ? '❤️ ${widget.course['title']} '
-                                    'ditambahkan ke favorite.'
+                                      'ditambahkan ke favorite.'
                                 : '${widget.course['title']} '
-                                    'dihapus dari favorite.',
+                                      'dihapus dari favorite.',
                           ),
                         ),
                       );
                     },
                     icon: Icon(
-                      isFavorite
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: isFavorite
-                          ? Colors.pink
-                          : Colors.grey,
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.pink : Colors.grey,
                     ),
                   ),
                 ],
@@ -810,9 +764,7 @@ class _CourseCardState extends State<CourseCard> {
                   const SizedBox(width: 8),
                   Text(
                     '${widget.course['credits']} SKS',
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade600),
                   ),
                 ],
               ),
@@ -827,10 +779,7 @@ class _CourseCardState extends State<CourseCard> {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    color: widget.color,
-                  ),
+                  Icon(Icons.arrow_forward_rounded, color: widget.color),
                 ],
               ),
             ],
@@ -840,6 +789,7 @@ class _CourseCardState extends State<CourseCard> {
     );
   }
 }
+
 // ============================================================
 // COURSE DETAIL PAGE
 // ============================================================
@@ -852,11 +802,10 @@ class CourseDetailPage extends StatefulWidget {
     required this.color,
   });
   @override
-  State<CourseDetailPage> createState() =>
-      _CourseDetailPageState();
+  State<CourseDetailPage> createState() => _CourseDetailPageState();
 }
-class _CourseDetailPageState
-    extends State<CourseDetailPage> {
+
+class _CourseDetailPageState extends State<CourseDetailPage> {
   bool isFavorite = false;
   void toggleFavorite() {
     setState(() {
@@ -872,6 +821,7 @@ class _CourseDetailPageState
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -881,9 +831,7 @@ class _CourseDetailPageState
           IconButton(
             onPressed: toggleFavorite,
             icon: Icon(
-              isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_border,
+              isFavorite ? Icons.favorite : Icons.favorite_border,
               color: isFavorite ? Colors.pink : null,
             ),
           ),
@@ -892,30 +840,21 @@ class _CourseDetailPageState
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    widget.color,
-                    widget.color.withValues(alpha: 0.65),
-                  ],
+                  colors: [widget.color, widget.color.withValues(alpha: 0.65)],
                 ),
                 borderRadius: BorderRadius.circular(28),
               ),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    widget.course['icon'],
-                    color: Colors.white,
-                    size: 70,
-                  ),
+                  Icon(widget.course['icon'], color: Colors.white, size: 70),
                   const SizedBox(height: 20),
                   Text(
                     widget.course['code'],
@@ -951,10 +890,7 @@ class _CourseDetailPageState
             const SizedBox(height: 20),
             const Text(
               'Deskripsi Course',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
@@ -973,6 +909,7 @@ class _CourseDetailPageState
     );
   }
 }
+
 // ============================================================
 // PROFILE PAGE
 // ============================================================
@@ -984,9 +921,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'My Profile',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
@@ -998,10 +933,7 @@ class ProfilePage extends StatelessWidget {
               padding: const EdgeInsets.all(26),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFF06B6D4),
-                    Color(0xFF3B82F6),
-                  ],
+                  colors: [Color(0xFF06B6D4), Color(0xFF3B82F6)],
                 ),
                 borderRadius: BorderRadius.circular(26),
               ),
@@ -1029,10 +961,7 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(height: 6),
                   Text(
                     'NIM: 2415051045',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 17,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 17),
                   ),
                 ],
               ),
@@ -1042,10 +971,7 @@ class ProfilePage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Student Feedback',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 12),
@@ -1056,40 +982,36 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
+
 // ============================================================
 // FEEDBACK FORM
 // ============================================================
 class FeedbackForm extends StatefulWidget {
   const FeedbackForm({super.key});
   @override
-  State<FeedbackForm> createState() =>
-      _FeedbackFormState();
+  State<FeedbackForm> createState() => _FeedbackFormState();
 }
+
 class _FeedbackFormState extends State<FeedbackForm> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController commentController =
-      TextEditingController();
+  final TextEditingController commentController = TextEditingController();
   bool isLoading = false;
   @override
   void dispose() {
     commentController.dispose();
     super.dispose();
   }
+
   Future<void> submitFeedback() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    final bool? confirmed =
-        await showDialog<bool>(
+    final bool? confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text(
-            'Konfirmasi Feedback',
-          ),
-          content: const Text(
-            'Apakah Anda yakin ingin mengirim feedback ini?',
-          ),
+          title: const Text('Konfirmasi Feedback'),
+          content: const Text('Apakah Anda yakin ingin mengirim feedback ini?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -1113,9 +1035,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(
-      const Duration(seconds: 2),
-    );
+    await Future.delayed(const Duration(seconds: 2));
     if (!mounted) {
       return;
     }
@@ -1123,14 +1043,11 @@ class _FeedbackFormState extends State<FeedbackForm> {
       isLoading = false;
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          '✨ Feedback berhasil dikirim!',
-        ),
-      ),
+      const SnackBar(content: Text('✨ Feedback berhasil dikirim!')),
     );
     commentController.clear();
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -1155,19 +1072,15 @@ class _FeedbackFormState extends State<FeedbackForm> {
               maxLines: 4,
               decoration: const InputDecoration(
                 labelText: 'Komentar',
-                hintText:
-                    'Bagikan pengalaman Anda...',
+                hintText: 'Bagikan pengalaman Anda...',
                 border: OutlineInputBorder(),
-                prefixIcon: Icon(
-                  Icons.chat_bubble_outline,
-                ),
+                prefixIcon: Icon(Icons.chat_bubble_outline),
                 alignLabelWithHint: true,
                 filled: true,
                 fillColor: Color(0xFFF8FAFC),
               ),
               validator: (value) {
-                if (value == null ||
-                    value.trim().isEmpty) {
+                if (value == null || value.trim().isEmpty) {
                   return 'Komentar wajib diisi';
                 }
                 if (value.trim().length < 5) {
@@ -1180,17 +1093,11 @@ class _FeedbackFormState extends State<FeedbackForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed:
-                    isLoading ? null : submitFeedback,
+                onPressed: isLoading ? null : submitFeedback,
                 icon: const Icon(Icons.send),
-                label: const Text(
-                  'Kirim Feedback',
-                ),
+                label: const Text('Kirim Feedback'),
                 style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(
-                    vertical: 15,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
               ),
             ),
@@ -1198,9 +1105,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
               const SizedBox(height: 20),
               const CircularProgressIndicator(),
               const SizedBox(height: 8),
-              const Text(
-                'Mengirim feedback...',
-              ),
+              const Text('Mengirim feedback...'),
             ],
           ],
         ),
@@ -1208,6 +1113,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
     );
   }
 }
+
 // ============================================================
 // STUDENT IDENTITY CARD
 // ============================================================
@@ -1220,51 +1126,38 @@ class StudentIdentityCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFFE5E7EB),
-        ),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
       child: Row(
         children: [
           const CircleAvatar(
             backgroundColor: Color(0xFFE0E7FF),
-            child: Icon(
-              Icons.person,
-              color: Color(0xFF4338CA),
-            ),
+            child: Icon(Icons.person, color: Color(0xFF4338CA)),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   studentName,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'NIM: $studentId',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600),
                 ),
               ],
             ),
           ),
-          const Icon(
-            Icons.verified,
-            color: Color(0xFF10B981),
-          ),
+          const Icon(Icons.verified, color: Color(0xFF10B981)),
         ],
       ),
     );
   }
 }
+
 // ============================================================
 // FEATURE CARD
 // ============================================================
@@ -1285,18 +1178,10 @@ class FeatureCard extends StatelessWidget {
     return Card(
       elevation: 0,
       color: Colors.white,
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-      ),
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: Container(
           width: 48,
           height: 48,
@@ -1304,27 +1189,16 @@ class FeatureCard extends StatelessWidget {
             color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(14),
           ),
-          child: Icon(
-            icon,
-            color: color,
-          ),
+          child: Icon(icon, color: color),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(description),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: color,
-        ),
+        trailing: Icon(Icons.arrow_forward_ios, size: 16, color: color),
       ),
     );
   }
 }
+
 // ============================================================
 // INFO ROW
 // ============================================================
@@ -1341,9 +1215,7 @@ class InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
+      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -1351,22 +1223,15 @@ class InfoRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(
-            icon,
-            color: const Color(0xFF6366F1),
-          ),
+          Icon(icon, color: const Color(0xFF6366F1)),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13,
-                  ),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                 ),
                 const SizedBox(height: 3),
                 Text(
@@ -1384,17 +1249,17 @@ class InfoRow extends StatelessWidget {
     );
   }
 }
+
 // ============================================================
 // TAHAP 16 - DEBUGGING PAGE
 // ============================================================
 class DebuggingPage extends StatefulWidget {
   const DebuggingPage({super.key});
   @override
-  State<DebuggingPage> createState() =>
-      _DebuggingPageState();
+  State<DebuggingPage> createState() => _DebuggingPageState();
 }
-class _DebuggingPageState
-    extends State<DebuggingPage> {
+
+class _DebuggingPageState extends State<DebuggingPage> {
   bool isNavigating = false;
   // ==========================================================
   // CASE D - MENCEGAH DOUBLE NAVIGATION
@@ -1410,9 +1275,7 @@ class _DebuggingPageState
     });
     await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => const DebugDetailPage(),
-      ),
+      MaterialPageRoute(builder: (_) => const DebugDetailPage()),
     );
     if (!mounted) {
       return;
@@ -1421,15 +1284,14 @@ class _DebuggingPageState
       isNavigating = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Tahap 16 - Debugging',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       // ========================================================
@@ -1441,8 +1303,7 @@ class _DebuggingPageState
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ==================================================
               // IDENTITAS
@@ -1451,19 +1312,13 @@ class _DebuggingPageState
               const SizedBox(height: 24),
               const Text(
                 'Debugging Challenge',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
                 'Contoh perbaikan masalah layout, '
                 'constraints, keyboard, dan navigation.',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
               ),
               const SizedBox(height: 24),
               // ==================================================
@@ -1472,10 +1327,7 @@ class _DebuggingPageState
               // ==================================================
               const Text(
                 'Kasus A - RenderFlex Overflow',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Container(
@@ -1483,20 +1335,13 @@ class _DebuggingPageState
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(16),
-                  border: Border.all(
-                    color: const Color(0xFFE5E7EB),
-                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
                 child: Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.info_outline,
-                      color: Color(0xFF6366F1),
-                    ),
+                    const Icon(Icons.info_outline, color: Color(0xFF6366F1)),
                     const SizedBox(width: 10),
                     // SOLUSI CASE A:
                     // Expanded membatasi ruang Text
@@ -1521,10 +1366,7 @@ class _DebuggingPageState
               // ==================================================
               const Text(
                 'Kasus B - Unbounded ListView',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Container(
@@ -1532,19 +1374,14 @@ class _DebuggingPageState
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(16),
-                  border: Border.all(
-                    color: const Color(0xFFE5E7EB),
-                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
                 child: Column(
                   children: [
                     const Text(
                       'ListView diberi tinggi yang jelas.',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     // SOLUSI CASE B:
@@ -1553,19 +1390,14 @@ class _DebuggingPageState
                     Expanded(
                       child: ListView.builder(
                         itemCount: 4,
-                        itemBuilder:
-                            (context, index) {
+                        itemBuilder: (context, index) {
                           return ListTile(
                             dense: true,
                             leading: CircleAvatar(
                               radius: 16,
-                              child: Text(
-                                '${index + 1}',
-                              ),
+                              child: Text('${index + 1}'),
                             ),
-                            title: Text(
-                              'Course ${index + 1}',
-                            ),
+                            title: Text('Course ${index + 1}'),
                           );
                         },
                       ),
@@ -1580,33 +1412,24 @@ class _DebuggingPageState
               // ==================================================
               const Text(
                 'Kasus C - Keyboard Overflow',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(16),
-                  border: Border.all(
-                    color: const Color(0xFFE5E7EB),
-                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
                 child: TextFormField(
                   maxLines: 4,
-                  decoration:
-                      const InputDecoration(
-                    labelText:
-                        'Komentar Debugging',
+                  decoration: const InputDecoration(
+                    labelText: 'Komentar Debugging',
                     hintText:
                         'Coba tekan bagian ini lalu '
                         'buka keyboard.',
-                    border:
-                        OutlineInputBorder(),
+                    border: OutlineInputBorder(),
                     alignLabelWithHint: true,
                   ),
                 ),
@@ -1616,9 +1439,7 @@ class _DebuggingPageState
                 'Solusi: SingleChildScrollView membuat '
                 'form tetap dapat digeser ketika keyboard '
                 'muncul.',
-                style: TextStyle(
-                  fontSize: 14,
-                ),
+                style: TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 28),
               // ==================================================
@@ -1627,25 +1448,18 @@ class _DebuggingPageState
               // ==================================================
               const Text(
                 'Kasus D - Navigasi Ganda',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(16),
-                  border: Border.all(
-                    color: const Color(0xFFE5E7EB),
-                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
                       'Tekan tombol hanya sekali '
@@ -1654,27 +1468,19 @@ class _DebuggingPageState
                     const SizedBox(height: 14),
                     SizedBox(
                       width: double.infinity,
-                      child:
-                          ElevatedButton.icon(
-                        onPressed: isNavigating
-                            ? null
-                            : openDetailSafely,
+                      child: ElevatedButton.icon(
+                        onPressed: isNavigating ? null : openDetailSafely,
                         icon: isNavigating
                             ? const SizedBox(
                                 width: 18,
                                 height: 18,
-                                child:
-                                    CircularProgressIndicator(
+                                child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Icon(
-                                Icons.open_in_new,
-                              ),
+                            : const Icon(Icons.open_in_new),
                         label: Text(
-                          isNavigating
-                              ? 'Membuka...'
-                              : 'Buka Detail',
+                          isNavigating ? 'Membuka...' : 'Buka Detail',
                         ),
                       ),
                     ),
@@ -1690,12 +1496,10 @@ class _DebuggingPageState
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   color: const Color(0xFFEFF6FF),
-                  borderRadius:
-                      BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: const Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '✓ Solusi Debugging',
@@ -1722,6 +1526,7 @@ class _DebuggingPageState
     );
   }
 }
+
 // ============================================================
 // DEBUG DETAIL PAGE
 // Untuk menguji navigasi ganda
@@ -1731,17 +1536,12 @@ class DebugDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Debug Detail',
-        ),
-      ),
+      appBar: AppBar(title: const Text('Debug Detail')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
                 Icons.check_circle,
@@ -1751,10 +1551,7 @@ class DebugDetailPage extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 'Navigasi berhasil!',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               const Text(
@@ -1764,26 +1561,17 @@ class DebugDetailPage extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 studentName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'NIM: 2415051045',
-              ),
+              const Text('NIM: 2415051045'),
               const SizedBox(height: 30),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
-                  Icons.arrow_back,
-                ),
-                label: const Text(
-                  'Kembali',
-                ),
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('Kembali'),
               ),
             ],
           ),
