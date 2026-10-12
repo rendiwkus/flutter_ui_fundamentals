@@ -7,7 +7,7 @@ class CourseRepository {
 
   CourseRepository(this.service);
 
-  Future<List<Course>> getCourses() {
-    return service.loadCourses();
+  Future<List<Course>> getCourses() async {
+    return await service.loadCourses();
   }
 }
