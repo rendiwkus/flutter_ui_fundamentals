@@ -23,7 +23,11 @@ const String studentId = '2415051045';
 void main() {
   runApp(
     ChangeNotifierProvider<CourseProvider>(
-      create: (_) => CourseProvider(CourseRepository(CourseService())),
+      create: (_) => CourseProvider(
+        CourseRepository(
+          CourseService(),
+        ),
+      ),
       child: const MyApp(),
     ),
   );
