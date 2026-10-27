@@ -4,6 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 const String apiUrl = 'https://course-api-pearl.vercel.app/courses';
+class CourseService {
+  static const String baseUrl = 'https://URL-API-KAMU.com';
+
+  // Method API lainnya di sini
+}
 
 Future<List<dynamic>> fetchCourses() async {
   final response = await http.get(Uri.parse(apiUrl));
@@ -22,4 +27,5 @@ Future<List<dynamic>> fetchCourses() async {
   }
 
   throw Exception('HTTP ${response.statusCode}');
+  
 }

@@ -16,7 +16,7 @@ import 'stage8_course_model.dart';
 import 'stage9_course_service.dart';
 import 'stage10_repository.dart';
 import 'stage11_provider_async_state.dart';
-
+import 'stage12_http_delete_page.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 
@@ -566,6 +566,19 @@ class CoursesPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const Stage11ProviderAsyncStatePage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 12 - HTTP DELETE
+          IconButton(
+            tooltip: 'Demo Tahap 12 - HTTP DELETE',
+            icon: const Icon(Icons.delete_outline),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const Stage12HttpDeletePage(),
                 ),
               );
             },
