@@ -1,13 +1,14 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/course.dart';
 
 class CourseService {
-  // Memuat data lokal yang sudah digunakan sebelumnya.
+  // Mengambil data course dari file JSON lokal.
   Future<List<Course>> loadCourses() async {
     final jsonString = await rootBundle.loadString(
       'assets/data/student_data.json',
@@ -16,24 +17,25 @@ class CourseService {
     final data = jsonDecode(jsonString) as Map<String, dynamic>;
     final list = data['courses'] as List<dynamic>;
 
-    return list
-        .map(
-          (e) => Course.fromJson(e as Map<String, dynamic>),
-        )
-        .toList();
+    return list.map((item) {
+      return Course.fromJson(
+        Map<String, dynamic>.from(item as Map),
+      );
+    }).toList();
   }
 
-  // Mengambil data kursus dari REST API.
-  Future<List<Map<String, dynamic>>> fetchCoursesFromApi() async {
+  // Mengambil data course dari REST API menggunakan HTTP GET.
+  Future<List<Course>> fetchCoursesFromApi() async {
     final url = Uri.parse(
       'https://course-api-pearl.vercel.app/courses',
     );
 
     final response = await http.get(url);
 
-    // Periksa status code sebelum memproses JSON.
+    debugPrint('HTTP Status: ${response.statusCode}');
+
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      final dynamic data = jsonDecode(response.body);
 
       if (data is! List) {
         throw const FormatException(
@@ -41,13 +43,20 @@ class CourseService {
         );
       }
 
-      return data.map<Map<String, dynamic>>((item) {
-        return Map<String, dynamic>.from(item as Map);
+      final courses = data.map<Course>((item) {
+        return Course.fromJson(
+          Map<String, dynamic>.from(item as Map),
+        );
       }).toList();
+
+      debugPrint('Jumlah course: ${courses.length}');
+
+      return courses;
     }
 
     throw Exception(
-      'Gagal mengambil data. Status code: ${response.statusCode}',
+      'Gagal mengambil data course. '
+      'Status HTTP: ${response.statusCode}',
     );
   }
 }

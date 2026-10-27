@@ -1,19 +1,21 @@
 
 import 'package:flutter/material.dart';
 
+import 'models/course.dart';
 import 'services/course_service.dart';
 
 class Stage2RestApiPage extends StatefulWidget {
   const Stage2RestApiPage({super.key});
 
   @override
-  State<Stage2RestApiPage> createState() => _Stage2RestApiPageState();
+  State<Stage2RestApiPage> createState() =>
+      _Stage2RestApiPageState();
 }
 
 class _Stage2RestApiPageState extends State<Stage2RestApiPage> {
   final CourseService _courseService = CourseService();
 
-  List<Map<String, dynamic>> _courses = [];
+  List<Course> _courses = [];
   bool _isLoading = false;
   String? _errorMessage;
   int? _statusCode;
@@ -34,18 +36,12 @@ class _Stage2RestApiPageState extends State<Stage2RestApiPage> {
         _courses = courses;
         _statusCode = 200;
       });
-
-      debugPrint('Status code: $_statusCode');
-      debugPrint('Jumlah data: ${_courses.length}');
-      debugPrint('Respons JSON: $_courses');
     } catch (error) {
       if (!mounted) return;
 
       setState(() {
         _errorMessage = error.toString();
       });
-
-      debugPrint('Terjadi kesalahan: $error');
     } finally {
       if (mounted) {
         setState(() {
@@ -64,62 +60,65 @@ class _Stage2RestApiPageState extends State<Stage2RestApiPage> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Pengujian HTTP GET',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const SelectableText(
-              'GET https://course-api-pearl.vercel.app/courses',
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: _isLoading ? null : _fetchCourses,
-              child: Text(
-                _isLoading ? 'Memuat data...' : 'Ambil Data API',
-              ),
+              icon: const Icon(Icons.cloud_download),
+              label: const Text('Ambil Data dari API'),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+
             if (_isLoading)
-              const Center(child: CircularProgressIndicator()),
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+
             if (_statusCode != null)
-              Text('Status code: $_statusCode'),
-            if (_statusCode == 200)
-              Text('Jumlah data: ${_courses.length}'),
+              Text(
+                'Status HTTP: $_statusCode',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
             if (_errorMessage != null)
-              SelectableText(
+              Text(
                 'Error: $_errorMessage',
                 style: const TextStyle(color: Colors.red),
               ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _courses.length,
-                itemBuilder: (context, index) {
-                  final course = _courses[index];
 
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text('${course['id'] ?? index + 1}'),
+            const SizedBox(height: 8),
+
+            Expanded(
+              child: _courses.isEmpty && !_isLoading
+                  ? const Center(
+                      child: Text(
+                        'Tekan tombol untuk mengambil data course.',
+                        textAlign: TextAlign.center,
                       ),
-                      title: Text(
-                        '${course['title'] ?? 'Tanpa judul'}',
-                      ),
-                      subtitle: Text(
-                        'Kode: ${course['code'] ?? '-'}'
-                        ' • SKS: ${course['credits'] ?? '-'}'
-                        ' • Status: ${course['status'] ?? '-'}',
-                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _courses.length,
+                      itemBuilder: (context, index) {
+                        final course = _courses[index];
+
+                        return Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text('${index + 1}'),
+                            ),
+                            title: Text(course.title),
+                            subtitle: Text(
+                              'Kode: ${course.code}\n'
+                              'SKS: ${course.credits}\n'
+                              'Status: ${course.status}',
+                            ),
+                            isThreeLine: true,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
