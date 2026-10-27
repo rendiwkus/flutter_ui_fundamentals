@@ -1,36 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-// ======================================================
-// MODEL STATE: ChangeNotifier
-// ======================================================
-
-class CounterNotifier extends ChangeNotifier {
-  int _count = 0;
-
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    notifyListeners();
-  }
-
-  void decrement() {
-    if (_count > 0) {
-      _count--;
-      notifyListeners();
-    }
-  }
-
-  void reset() {
-    _count = 0;
-    notifyListeners();
-  }
-}
-
-// ======================================================
-// HALAMAN DEMO
-// ======================================================
+const String studentName = 'Rendi Wija Kusuma';
+const String studentId = '2415051045';
 
 class Stage5ChangeNotifierPage extends StatefulWidget {
   const Stage5ChangeNotifierPage({super.key});
@@ -42,17 +14,17 @@ class Stage5ChangeNotifierPage extends StatefulWidget {
 
 class _Stage5ChangeNotifierPageState
     extends State<Stage5ChangeNotifierPage> {
-  late final CounterNotifier counterNotifier;
+  late final CourseCounterNotifier counter;
 
   @override
   void initState() {
     super.initState();
-    counterNotifier = CounterNotifier();
+    counter = CourseCounterNotifier();
   }
 
   @override
   void dispose() {
-    counterNotifier.dispose();
+    counter.dispose();
     super.dispose();
   }
 
@@ -62,110 +34,100 @@ class _Stage5ChangeNotifierPageState
       appBar: AppBar(
         title: const Text('Tahap 5 - ChangeNotifier'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Rendi Wija Kusuma',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Text('NIM: 2415051045'),
-                    ],
+      body: AnimatedBuilder(
+        animation: counter,
+        builder: (context, child) {
+          return Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  studentName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                const Text('NIM: $studentId'),
+                const SizedBox(height: 32),
+                const Icon(
+                  Icons.school,
+                  size: 64,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Jumlah Course Dipilih',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${counter.selectedCount}',
+                  style: const TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 28),
-              const Icon(
-                Icons.notifications_active_outlined,
-                size: 64,
-                color: Colors.indigo,
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'ChangeNotifier Counter',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // UI mendengarkan perubahan dari ChangeNotifier.
-              ListenableBuilder(
-                listenable: counterNotifier,
-                builder: (context, child) {
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(28),
-                      child: Column(
-                        children: [
-                          const Text('Nilai Counter'),
-                          const SizedBox(height: 12),
-                          Text(
-                            '${counterNotifier.count}',
-                            style: const TextStyle(
-                              fontSize: 48,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            counterNotifier.count == 0
-                                ? 'Belum ada perubahan'
-                                : 'Nilai berhasil diperbarui',
-                          ),
-                        ],
-                      ),
+                const SizedBox(height: 24),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: counter.decrease,
+                      icon: const Icon(Icons.remove),
+                      label: const Text('Kurangi'),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                alignment: WrapAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: counterNotifier.decrement,
-                    icon: const Icon(Icons.remove),
-                    label: const Text('Kurangi'),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: counterNotifier.increment,
-                    icon: const Icon(Icons.add),
-                    label: const Text('Tambah'),
-                  ),
-                  OutlinedButton.icon(
-                    onPressed: counterNotifier.reset,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Reset'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'ChangeNotifier memisahkan state dan logika perubahan '
-                'dari tampilan. notifyListeners() memberi tahu widget '
-                'yang mendengarkan bahwa state telah berubah.',
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
+                    ElevatedButton.icon(
+                      onPressed: counter.increase,
+                      icon: const Icon(Icons.add),
+                      label: const Text('Tambah'),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: counter.reset,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Reset'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  counter.selectedCount == 0
+                      ? 'Belum ada course dipilih.'
+                      : 'Ada ${counter.selectedCount} course dipilih.',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
+  }
+}
+
+class CourseCounterNotifier extends ChangeNotifier {
+  int _selectedCount = 0;
+
+  int get selectedCount => _selectedCount;
+
+  void increase() {
+    _selectedCount++;
+    notifyListeners();
+  }
+
+  void decrease() {
+    if (_selectedCount > 0) {
+      _selectedCount--;
+      notifyListeners();
+    }
+  }
+
+  void reset() {
+    _selectedCount = 0;
+    notifyListeners();
   }
 }
