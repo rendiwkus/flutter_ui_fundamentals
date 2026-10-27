@@ -1,17 +1,29 @@
-# flutter_ui_fundamentals
+# Dokumentasi REST API — Course Data Manager
 
-A new Flutter project.
+**Nama:** Rendi Wija Kusuma  
+**NIM:** 2415051045
 
-## Getting Started
+## 1. Informasi Endpoint
 
-This project is a starting point for a Flutter application.
+- **URL:** `https://course-api-pearl.vercel.app/courses`
+- **HTTP Method:** `GET`
+- **Status Code:** (isi berdasarkan hasil pengujian)
+- **Resource:** `courses`
 
-A few resources to get you started if this is your first Flutter project:
+## 2. Struktur JSON
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Berdasarkan respons API yang diperoleh, terdapat field berikut:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. (Field pertama)
+2. (Field kedua)
+3. (Field ketiga)
+4. (Field keempat)
+
+## 3. Hasil Pengujian
+
+Endpoint diuji menggunakan metode HTTP GET untuk membaca resource course. Hasil pengujian menunjukkan bahwa (jelaskan apakah permintaan berhasil atau gagal). Response body yang diterima berupa (jelaskan bentuk respons aktual).
+
+## 4. Kesimpulan
+
+Pengujian endpoint REST membantu memahami cara aplikasi meminta data dari backend melalui HTTP. Data yang diterima dalam format JSON perlu dipetakan ke model Dart agar dapat dikelola dan ditampilkan pada aplikasi Flutter.
+
