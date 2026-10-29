@@ -23,6 +23,7 @@ import 'config/supabase_config.dart';
 import 'stage13_supabase_insert_page.dart';
 import 'stage14_supabase_update_page.dart';
 import 'stage15_supabase_delete_page.dart';
+import 'screens/course_list_page.dart';
 
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
@@ -636,6 +637,21 @@ class CoursesPage extends StatelessWidget {
               );
             },
           ),
+          // TAHAP 16 - Course data manager
+          IconButton(
+            tooltip: 'Tahap 16 - Course Data Manager',
+            icon: const Icon(Icons.dashboard_customize_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CourseListPage(),
+                ),
+              );
+            },
+          ),
+
+
         ],
       ),
       body: LayoutBuilder(

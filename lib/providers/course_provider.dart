@@ -9,14 +9,11 @@ class CourseProvider extends ChangeNotifier {
 
   CourseProvider(this.repository);
 
-  // Data mata kuliah.
   List<Course> courses = [];
 
-  // Status asynchronous.
   bool isLoading = false;
   String? error;
 
-  // Data favorit dari tahap sebelumnya.
   final Set<String> _favorites = {};
 
   Set<String> get favorites => Set.unmodifiable(_favorites);
@@ -37,7 +34,7 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Memuat data mata kuliah dari repository.
+  // Tahap sebelumnya: membaca data lokal.
   Future<void> loadCourses() async {
     isLoading = true;
     error = null;
@@ -53,7 +50,23 @@ class CourseProvider extends ChangeNotifier {
     }
   }
 
-  // Menambahkan course melalui repository ke Supabase.
+  // Tahap 16: membaca data Supabase.
+  Future<void> loadSupabaseCourses() async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      courses = await repository.fetchCoursesFromSupabase();
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Tahap 16: CREATE dan refresh data.
   Future<void> createCourse(Course course) async {
     isLoading = true;
     error = null;
@@ -66,6 +79,44 @@ class CourseProvider extends ChangeNotifier {
         credits: course.credits,
         status: course.status,
       );
+
+      courses = await repository.fetchCoursesFromSupabase();
+    } catch (e) {
+      error = e.toString();
+      rethrow;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Tahap 16: UPDATE dan refresh data.
+  Future<void> updateSupabaseCourse(Course course) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      await repository.updateCourse(course);
+      courses = await repository.fetchCoursesFromSupabase();
+    } catch (e) {
+      error = e.toString();
+      rethrow;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Tahap 16: DELETE dan refresh data.
+  Future<void> deleteSupabaseCourse(String id) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      await repository.deleteCourseFromSupabase(id);
+      courses = await repository.fetchCoursesFromSupabase();
     } catch (e) {
       error = e.toString();
       rethrow;
