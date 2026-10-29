@@ -7,13 +7,34 @@ class CourseRepository {
 
   CourseRepository(this.service);
 
-  // Mengambil data course dari REST API
-  Future<List<Course>> getCourses() {
+  // Mengambil course dari sumber lokal.
+  // Dipertahankan untuk kompatibilitas dengan tahap sebelumnya.
+  Future<List<Course>> getCourses() async {
+    return service.loadCourses();
+  }
+
+  // Mengambil course dari REST API.
+  Future<List<Course>> fetchCoursesFromApi() async {
     return service.fetchCoursesFromApi();
   }
 
-  // Menghapus course melalui REST API
-  Future<void> deleteCourse(String id) {
-    return service.deleteCourse(id);
+  // Tahap 13: menambahkan course ke Supabase.
+  Future<void> createCourse({
+    required String code,
+    required String title,
+    required int credits,
+    required String status,
+  }) async {
+    await service.createCourse(
+      code: code,
+      title: title,
+      credits: credits,
+      status: status,
+    );
+  }
+
+  // Mempertahankan operasi DELETE Tahap 12.
+  Future<void> deleteCourse(String id) async {
+    await service.deleteCourse(id);
   }
 }

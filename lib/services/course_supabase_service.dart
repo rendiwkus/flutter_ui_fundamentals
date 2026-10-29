@@ -20,4 +20,11 @@ class CourseSupabaseService {
         )
         .toList();
   }
+  
+  Future<void> createCourse(Course course) async {
+  await supabase
+      .from('courses')
+      .insert(course.toJson());
+  }
+
 }
