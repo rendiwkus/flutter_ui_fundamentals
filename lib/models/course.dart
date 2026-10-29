@@ -1,3 +1,4 @@
+
 class Course {
   final String? id;
   final String code;
@@ -15,11 +16,13 @@ class Course {
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
-      id: (json['id'] ?? json['_id'])?.toString(),
-      code: json['code'] as String,
-      title: json['title'] as String,
-      credits: (json['credits'] as num).toInt(),
-      status: json['status'] as String,
+      id: json['id']?.toString(),
+      code: json['code']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      credits: json['credits'] is int
+          ? json['credits'] as int
+          : int.tryParse(json['credits']?.toString() ?? '') ?? 0,
+      status: json['status']?.toString() ?? 'Aktif',
     );
   }
 

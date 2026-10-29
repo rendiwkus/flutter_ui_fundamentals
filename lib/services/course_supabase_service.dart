@@ -3,28 +3,37 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/course.dart';
 
-class CourseSupabaseService {
-  final SupabaseClient supabase = Supabase.instance.client;
+class SupabaseCourseService {
+  final SupabaseClient _client = Supabase.instance.client;
 
-  Future<List<Course>> getCourses() async {
-    final data = await supabase
+  // Membaca course langsung dari tabel Supabase.
+  Future<List<Course>> fetchCourses() async {
+    final response = await _client
         .from('courses')
         .select()
-        .order('id');
+        .order('id', ascending: true);
 
-    return (data as List)
+    return (response as List)
         .map(
           (item) => Course.fromJson(
-            Map<String, dynamic>.from(item),
+            Map<String, dynamic>.from(item as Map),
           ),
         )
         .toList();
   }
-  
-  Future<void> createCourse(Course course) async {
-  await supabase
-      .from('courses')
-      .insert(course.toJson());
-  }
 
+  // Menambahkan course baru ke tabel Supabase.
+  Future<void> createCourse({
+    required String code,
+    required String title,
+    required int credits,
+    required String status,
+  }) async {
+    await _client.from('courses').insert({
+      'code': code,
+      'title': title,
+      'credits': credits,
+      'status': status,
+    });
+  }
 }

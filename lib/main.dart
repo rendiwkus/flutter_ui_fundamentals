@@ -33,7 +33,14 @@ Future<void> main() async {
     anonKey: SupabaseConfig.supabaseAnonKey,
   );
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider<CourseProvider>(
+      create: (_) => CourseProvider(
+        CourseRepository(CourseService()),
+      ),
+      child: const MyApp(),
+    ),
+  );
 }
 
 
