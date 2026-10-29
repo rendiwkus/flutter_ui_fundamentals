@@ -17,21 +17,24 @@ import 'stage9_course_service.dart';
 import 'stage10_repository.dart';
 import 'stage11_provider_async_state.dart';
 import 'stage12_http_delete_page.dart';
+import 'package:flutter/widgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'config/supabase_config.dart';
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 
-void main() {
-  runApp(
-    ChangeNotifierProvider<CourseProvider>(
-      create: (_) => CourseProvider(
-        CourseRepository(
-          CourseService(),
-        ),
-      ),
-      child: const MyApp(),
-    ),
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: SupabaseConfig.supabaseUrl,
+    anonKey: SupabaseConfig.supabaseAnonKey,
   );
+
+  runApp(const MyApp());
 }
+
 
 // ============================================================
 // DATA COURSE
