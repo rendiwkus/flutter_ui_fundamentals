@@ -22,6 +22,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'config/supabase_config.dart';
 import 'stage13_supabase_insert_page.dart';
 import 'stage14_supabase_update_page.dart';
+import 'stage15_supabase_delete_page.dart';
 
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
@@ -618,6 +619,19 @@ class CoursesPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const Stage14SupabaseUpdatePage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 15 - SUPABASE DELETE
+          IconButton(
+            tooltip: 'Demo Tahap 15 - Supabase Delete',
+            icon: const Icon(Icons.cloud_off_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const Stage15SupabaseDeletePage(),
                 ),
               );
             },

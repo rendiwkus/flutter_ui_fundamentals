@@ -7,31 +7,20 @@ import '../models/course.dart';
 class SupabaseCourseService {
   final SupabaseClient _client = Supabase.instance.client;
 
-  // READ: membaca course langsung dari Supabase.
+  // READ: mengambil seluruh course dari Supabase.
   Future<List<Course>> fetchCourses() async {
     try {
       final response = await _client
           .from('courses')
           .select();
 
-      debugPrint('Supabase response: $response');
-
-      final courses = (response as List).map((item) {
+      return (response as List).map((item) {
         return Course.fromJson(
           Map<String, dynamic>.from(item as Map),
         );
       }).toList();
-
-      debugPrint('Jumlah course terbaca: ${courses.length}');
-
-      return courses;
     } on PostgrestException catch (e) {
-      debugPrint('Supabase error: ${e.message}');
-      debugPrint('Supabase code: ${e.code}');
-      debugPrint('Supabase details: ${e.details}');
-      rethrow;
-    } catch (e) {
-      debugPrint('Error membaca course: $e');
+      debugPrint('Gagal membaca course: ${e.message}');
       rethrow;
     }
   }
@@ -51,7 +40,7 @@ class SupabaseCourseService {
     });
   }
 
-  // UPDATE: memperbarui course berdasarkan ID numerik.
+  // UPDATE: memperbarui course berdasarkan ID.
   Future<void> updateCourse(Course course) async {
     final rawId = course.id;
 
@@ -62,9 +51,7 @@ class SupabaseCourseService {
     final id = int.tryParse(rawId);
 
     if (id == null) {
-      throw Exception(
-        'ID course bukan angka. Periksa tipe kolom id di Supabase.',
-      );
+      throw Exception('ID course harus berupa angka.');
     }
 
     await _client
@@ -76,5 +63,18 @@ class SupabaseCourseService {
           'status': course.status,
         })
         .eq('id', id);
+  }
+
+  // DELETE: menghapus course berdasarkan ID.
+  Future<void> deleteCourse(int id) async {
+    try {
+      await _client
+          .from('courses')
+          .delete()
+          .eq('id', id);
+    } on PostgrestException catch (e) {
+      debugPrint('Gagal menghapus course: ${e.message}');
+      rethrow;
+    }
   }
 }
