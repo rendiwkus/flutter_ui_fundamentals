@@ -7,7 +7,13 @@ class CourseRepository {
 
   CourseRepository(this.service);
 
-  Future<List<Course>> getCourses() async {
-    return await service.loadCourses();
+  // Mengambil data course dari REST API
+  Future<List<Course>> getCourses() {
+    return service.fetchCoursesFromApi();
+  }
+
+  // Menghapus course melalui REST API
+  Future<void> deleteCourse(String id) {
+    return service.deleteCourse(id);
   }
 }

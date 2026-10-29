@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 
+import 'package:flutter/foundation.dart';
 import '../models/course.dart';
 import '../repositories/course_repository.dart';
 
@@ -8,23 +8,17 @@ class CourseProvider extends ChangeNotifier {
 
   CourseProvider(this.repository);
 
-  // Data mata kuliah
   List<Course> courses = [];
-
-  // Status asynchronous
   bool isLoading = false;
   String? error;
 
-  // Data favorit dari tahap sebelumnya
   final Set<String> _favorites = {};
 
   Set<String> get favorites => Set.unmodifiable(_favorites);
-
   int get favoriteCount => _favorites.length;
 
-  bool isFavorite(String courseId) {
-    return _favorites.contains(courseId);
-  }
+  bool isFavorite(String courseId) =>
+      _favorites.contains(courseId);
 
   void toggleFavorite(String courseId) {
     if (_favorites.contains(courseId)) {
@@ -36,7 +30,6 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Memuat data mata kuliah
   Future<void> loadCourses() async {
     isLoading = true;
     error = null;
@@ -49,6 +42,18 @@ class CourseProvider extends ChangeNotifier {
     } finally {
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<bool> deleteCourse(String id) async {
+    try {
+      await repository.deleteCourse(id);
+      await loadCourses();
+      return error == null;
+    } catch (e) {
+      error = e.toString();
+      notifyListeners();
+      return false;
     }
   }
 }
