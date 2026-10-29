@@ -21,6 +21,8 @@ import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'config/supabase_config.dart';
 import 'stage13_supabase_insert_page.dart';
+import 'stage14_supabase_update_page.dart';
+
 const String studentName = 'Rendi Wija Kusuma';
 const String studentId = '2415051045';
 
@@ -603,6 +605,19 @@ class CoursesPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const Stage13SupabaseInsertPage(),
+                ),
+              );
+            },
+          ),
+          // TAHAP 14 - SUPABASE UPDATE
+          IconButton(
+            tooltip: 'Demo Tahap 14 - Supabase Update',
+            icon: const Icon(Icons.cloud_sync_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const Stage14SupabaseUpdatePage(),
                 ),
               );
             },
