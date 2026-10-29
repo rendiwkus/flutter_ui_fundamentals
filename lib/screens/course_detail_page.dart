@@ -39,6 +39,7 @@ class CourseDetailPage extends StatelessWidget {
               ),
             ),
           ),
+          
           const SizedBox(height: 16),
           _DetailRow(label: 'ID Database', value: course.id ?? 'Tidak tersedia'),
           _DetailRow(label: 'Kode Course', value: course.code),
